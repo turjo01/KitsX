@@ -3,6 +3,7 @@ package dev.darkxx.kitsx;
 import dev.darkxx.kitsx.commands.KitCommand;
 import dev.darkxx.kitsx.commands.KitRoomAdminCommand;
 import dev.darkxx.kitsx.commands.PremadeKitCommand;
+import dev.darkxx.kitsx.menus.config.MenuConfig;
 import dev.darkxx.kitsx.utils.EnderChestUtil;
 import dev.darkxx.kitsx.utils.KitRoomUtil;
 import dev.darkxx.kitsx.utils.KitUtil;
@@ -30,6 +31,7 @@ public final class Main extends JavaPlugin {
     private static PremadeKitUtil premadeKitUtil;
     private static EnderChestUtil enderChestUtil;
     private static KitRoomUtil kitRoomUtil;
+    private MenuConfig menuConfig;
     private static BlacklistedRegion blacklistedRegion;
 
     @Override
@@ -107,5 +109,9 @@ public final class Main extends JavaPlugin {
         }
         FileConfiguration kitRoomStorage = YamlConfiguration.loadConfiguration(kitRoomFile);
         kitRoomUtil = new KitRoomUtil(kitRoomFile, kitRoomStorage);
+
+        this.menuConfig = new MenuConfig(this, "menus/kits.yml");
+        this.menuConfig = new MenuConfig(this, "menus/kit-editor.yml");
+        this.menuConfig = new MenuConfig(this, "menus/enderchest-editor.yml");
     }
 }

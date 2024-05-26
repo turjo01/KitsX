@@ -1,0 +1,41 @@
+enderchest-editor:
+  size: 36
+  title: "Ender Chest | %kitname%"
+
+  filter:
+    material: BLACK_STAINED_GLASS_PANE
+    name: " "
+    slots: [ 27, 28, 29, 30, 31, 32, 33, 34, 35 ]
+    flags:
+      - HIDE_ATTRIBUTES
+      - HIDE_ENCHANTS
+
+  save:
+    material: LIME_DYE
+    name: "&aSave"
+    slot: 30
+    lore: []
+    flags:
+      - HIDE_ATTRIBUTES
+      - HIDE_ENCHANTS
+    # enchantments:
+    #  - type: MENDING
+    #    level: 1
+
+  reset:
+    material: RED_DYE
+    name: "&cReset"
+    slot: 32
+    lore: []
+    flags:
+      - HIDE_ATTRIBUTES
+      - HIDE_ENCHANTS
+
+  back:
+    material: RED_STAINED_GLASS_PANE
+    name: "&cBack"
+    slot: 31
+    lore: []
+    flags:
+      - HIDE_ATTRIBUTES
+      - HIDE_ENCHANTS

@@ -1,3 +1,5 @@
+// TODO: make this menu configurable via the config
+
 package dev.darkxx.kitsx.menus;
 
 import dev.darkxx.kitsx.Main;

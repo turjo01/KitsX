@@ -1,0 +1,66 @@
+kits-menu:
+  title: "Kits"
+  size: 54
+
+  filter: true
+  filter-material: BLACK_STAINED_GLASS_PANE
+
+  kits:
+    material: END_CRYSTAL
+    name: "&#ff2e2eKit %kit%"
+    lore:
+      - " "
+      - "&7Left click to load"
+      - "&7Right click to edit"
+      - " "
+      - "&7/k%i% - /kit%i%"
+    flags:
+      - HIDE_ATTRIBUTES
+      - HIDE_ENCHANTS
+
+  enderchests:
+    material: ENDER_CHEST
+    name: "&#4561a3Ender Chest %kit%"
+    lore:
+      - " "
+      - "&7Left click to load"
+      - "&7Right click to edit"
+      - " "
+      - "&7/k%i% - /kit%i%"
+    flags:
+      - HIDE_ATTRIBUTES
+      - HIDE_ENCHANTS
+
+  kitroom:
+    material: CREEPER_BANNER_PATTERN
+    name: "&#ff2e2eKit Room"
+    slot: 38
+    lore: []
+    flags:
+      - HIDE_ATTRIBUTES
+      - HIDE_ENCHANTS
+
+  clearinv:
+    material: RED_DYE
+    name: "&#ff2e2eClear Inventory"
+    slot: 40
+    lore: []
+    flags:
+      - HIDE_ATTRIBUTES
+      - HIDE_ENCHANTS
+
+  premadekit:
+    material: NETHERITE_CHESTPLATE
+    name: "&#ff2e2ePremade Kit"
+    slot: 42
+    lore:
+      - " "
+      - "&7Left click to load"
+      - "&7Right click to preview"
+      - " "
+    flags:
+      - HIDE_ATTRIBUTES
+      - HIDE_ENCHANTS
+    enchantments:
+      - type: MENDING
+        level: 1
