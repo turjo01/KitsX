@@ -1,5 +1,5 @@
 name: KitsX
-version: '${version}'
+version: '1.0'
 main: dev.darkxx.kitsx.Main
 api-version: '1.20'
 authors:
