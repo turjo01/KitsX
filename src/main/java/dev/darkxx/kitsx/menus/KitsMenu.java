@@ -36,8 +36,8 @@ public class KitsMenu extends GuiBuilder {
 
         GuiBuilder inventory = new GuiBuilder(inventorySize, inventoryTitle);
 
-        if (CONFIG.getConfig().getBoolean("kits-menu.filter", true)) {
-            addFilter(inventory);
+        if (CONFIG.getConfig().getBoolean("kits-menu.filter.enabled", true)) {
+            addFilterItems(inventory);
         }
 
         addKitItems(inventory, player);
@@ -49,14 +49,24 @@ public class KitsMenu extends GuiBuilder {
         return inventory;
     }
 
-    private static void addFilter(GuiBuilder inventory) {
-        String filterMaterial = CONFIG.getConfig().getString("kits-menu.filter-material", "BLACK_STAINED_GLASS_PANE");
-        ItemStack filterItem = new ItemBuilderGUI(Material.valueOf(filterMaterial))
-                .name(" ")
-                .flags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS)
+    private static void addFilterItems(GuiBuilder inventory) {
+        String filterMaterial = CONFIG.getConfig().getString("kits-menu.filter.material", "BLACK_STAINED_GLASS_PANE");
+        String filterName = CONFIG.getConfig().getString("kits-menu.filter.name", " ");
+        List<String> filterFlagsList = CONFIG.getConfig().getStringList("kits-menu.filter.flags");
+        List<ItemFlag> filterFlags = new ArrayList<>();
+        for (String flag : filterFlagsList) {
+            filterFlags.add(ItemFlag.valueOf(flag));
+        }
+        List<Integer> filterSlots = CONFIG.getConfig().getIntegerList("kits-menu.filter.slots");
+
+        ItemStack filter = new ItemBuilderGUI(Material.valueOf(filterMaterial))
+                .name(filterName)
+                .flags(filterFlags.toArray(new ItemFlag[0]))
                 .build();
 
-        inventory.fillEmptySlots(filterItem);
+        for (int slot : filterSlots) {
+            inventory.setItem(slot, filter);
+        }
     }
 
     private static void addKitItems(GuiBuilder inventory, Player player) {
