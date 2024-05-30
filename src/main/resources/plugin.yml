@@ -1,40 +1,15 @@
 name: KitsX
 version: '1.0'
-main: dev.darkxx.kitsx.Main
+main: dev.darkxx.kitsx.KitsX
 api-version: '1.20'
 authors:
   - Darkxx
   - XyrisPlugins
+softdepend:
+  - WorldGuard
+  - Skript
 description: A modern kits plugin for the Crystal PvP server.
 website: https://xyris.fun/
-
-commands:
-  kit:
-    aliases:
-      - k
-  kit1:
-    aliases:
-      - k1
-  kit2:
-    aliases:
-      - k2
-  kit3:
-    aliases:
-      - k3
-  kit4:
-    aliases:
-      - k4
-  kit5:
-    aliases:
-      - k5
-  kit6:
-    aliases:
-      - k6
-  kit7:
-    aliases:
-      - k7
-  kitroomadmin:
-  premadekit:
 
 permissions:
   kitsx.admin:

@@ -1,13 +1,16 @@
 package dev.darkxx.kitsx.utils;
 
-import dev.darkxx.kitsx.Main;
+import dev.darkxx.kitsx.KitsX;
+import dev.darkxx.kitsx.api.PremadeKitAPI;
 import dev.darkxx.kitsx.utils.menu.GuiBuilder;
-import dev.darkxx.utils.text.ColorizeText;
+import dev.darkxx.utils.text.color.ColorizeText;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,18 +19,27 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class PremadeKitUtil {
+public class PremadeKitUtil implements PremadeKitAPI {
 
     private static final Logger logger = Logger.getLogger(PremadeKitUtil.class.getName());
 
-    private final File premadeKitsFile;
-    private final FileConfiguration premadeKitsStorage;
+    private static File premadeKitsFile;
+    private static FileConfiguration premadeKitsStorage;
 
     public PremadeKitUtil(File premadeKitsFile, FileConfiguration premadeKitsStorage) {
-        this.premadeKitsFile = premadeKitsFile;
-        this.premadeKitsStorage = premadeKitsStorage;
+        PremadeKitUtil.premadeKitsFile = premadeKitsFile;
+        PremadeKitUtil.premadeKitsStorage = premadeKitsStorage;
     }
 
+    public static void of(JavaPlugin plugin) {
+        premadeKitsFile = new File(plugin.getDataFolder(), "data/premadekit.yml");
+        if (!premadeKitsFile.exists()) {
+            plugin.saveResource("data/premadekit.yml", false);
+        }
+        premadeKitsStorage = YamlConfiguration.loadConfiguration(premadeKitsFile);
+    }
+
+    @Override
     public void save(Player player) {
         try {
             Inventory inventory = player.getInventory();
@@ -37,7 +49,7 @@ public class PremadeKitUtil {
             premadeKitsStorage.set("premadekit.armor", armorList);
             premadeKitsStorage.set("premadekit.offhand", player.getInventory().getItemInOffHand());
             premadeKitsStorage.save(premadeKitsFile);
-            String saved = Main.getInstance().getConfig().getString("messages.premade-kit-saved");
+            String saved = KitsX.getInstance().getConfig().getString("messages.premade-kit-saved");
             assert saved != null;
             player.sendMessage(ColorizeText.hex(saved));
         } catch (IOException e) {
@@ -45,6 +57,7 @@ public class PremadeKitUtil {
         }
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public void set(GuiBuilder inventory) {
         List<ItemStack> inventoryItems = (List<ItemStack>) premadeKitsStorage.getList("premadekit.inventory");
@@ -67,6 +80,7 @@ public class PremadeKitUtil {
         }
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public void load(Player player) {
         if (premadeKitsStorage.contains("premadekit")) {
@@ -78,24 +92,25 @@ public class PremadeKitUtil {
                 player.getInventory().setItemInOffHand(offhandItem);
             }
 
-            if (Main.getInstance().getConfig().getBoolean("broadcast.premadekit-load", true)) {
-                String bcastLoaded = Main.getInstance().getConfig().getString("broadcast.premadekit-load-message");
+            if (KitsX.getInstance().getConfig().getBoolean("broadcast.premadekit-load", true)) {
+                String bcastLoaded = KitsX.getInstance().getConfig().getString("broadcast.premadekit-load-message");
                 assert bcastLoaded != null;
                 bcastLoaded = bcastLoaded.replace("%player%", player.getName());
                 Bukkit.broadcastMessage(ColorizeText.hex(bcastLoaded));
             }
 
-            String loaded = Main.getInstance().getConfig().getString("messages.premade-kit-loaded");
+            String loaded = KitsX.getInstance().getConfig().getString("messages.premade-kit-loaded");
             assert loaded != null;
             player.sendMessage(ColorizeText.hex(loaded));
 
         } else {
-            String empty = Main.getInstance().getConfig().getString("messages.premade-kit-empty");
+            String empty = KitsX.getInstance().getConfig().getString("messages.premade-kit-empty");
             assert empty != null;
             player.sendMessage(ColorizeText.hex(empty));
         }
     }
 
+    @Override
     public void saveAll() {
         try {
             premadeKitsStorage.save(premadeKitsFile);

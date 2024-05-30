@@ -2,11 +2,10 @@ package dev.darkxx.kitsx.commands;
 
 import dev.darkxx.kitsx.KitsX;
 import dev.darkxx.kitsx.hooks.WorldGuardHook;
-import dev.darkxx.kitsx.menus.KitsMenu;
+import dev.darkxx.kitsx.menus.AutoRekitMenu;
 import dev.darkxx.kitsx.utils.wg.BlacklistedRegion;
 import dev.darkxx.utils.command.XyrisCommand;
 import dev.darkxx.utils.text.color.ColorizeText;
-
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -14,11 +13,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public class KitCommand extends XyrisCommand<KitsX> {
+public class AutoRekitCommand extends XyrisCommand<KitsX> {
 
-    public KitCommand(KitsX plugin) {
-        super(plugin, "kitsx", "kit");
-        setAliases("k");
+    public AutoRekitCommand(KitsX plugin) {
+        super(plugin, "kitsx", "autorekit");
         registerCommand();
     }
 
@@ -34,7 +32,7 @@ public class KitCommand extends XyrisCommand<KitsX> {
                 }
             }
 
-            KitsMenu.openKitMenu(player, KitsX.getInstance()).open(player);
+            AutoRekitMenu.openAutoRekitMenu(player).open(player);
             return true;
         }
         return false;

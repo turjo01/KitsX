@@ -1,19 +1,24 @@
 package dev.darkxx.kitsx.utils;
 
+import dev.darkxx.kitsx.api.KitRoomAPI;
 import dev.darkxx.kitsx.utils.menu.GuiBuilder;
-import dev.darkxx.utils.text.ColorizeText;
+import dev.darkxx.utils.text.color.ColorizeText;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class KitRoomUtil {
+public class KitRoomUtil implements KitRoomAPI {
+
     private static final Logger logger = Logger.getLogger(KitRoomUtil.class.getName());
+
     private final File kitRoomFile;
     private final FileConfiguration kitRoomStorage;
 
@@ -22,10 +27,18 @@ public class KitRoomUtil {
         this.kitRoomStorage = kitRoomStorage;
     }
 
+    public static KitRoomUtil of(JavaPlugin plugin) {
+        File kitRoomFile = new File(plugin.getDataFolder(), "data/kitroom.yml");
+        if (!kitRoomFile.exists()) {
+            plugin.saveResource("data/kitroom.yml", false);
+        }
+        return new KitRoomUtil(kitRoomFile, YamlConfiguration.loadConfiguration(kitRoomFile));
+    }
+
+    @Override
     public void save(Player player, String category) {
         if (exists(category)) {
             delete(category);
-
         }
 
         for (int i = 0; i < 45; i++) {
@@ -39,16 +52,14 @@ public class KitRoomUtil {
             kitRoomStorage.save(kitRoomFile);
             player.sendMessage(ColorizeText.hex("&#7cff6eKit room category " + category + " saved!"));
         } catch (IOException e) {
-            logger.log(Level.SEVERE, "Failed to save category ", e);
+            logger.log(Level.SEVERE, "Failed to save category ): ", e);
         }
     }
 
-
+    @Override
     public void load(GuiBuilder inventory, String category) {
-        for (int i1 = 0; i1 < 45; i1++) {
-            inventory.setItem(i1, new ItemStack(Material.AIR));
-        }
         for (int i = 0; i < 45; i++) {
+            inventory.setItem(i, new ItemStack(Material.AIR));
             ItemStack item = kitRoomStorage.getItemStack("categories." + category + "." + i);
             if (item != null) {
                 inventory.setItem(i, item);
@@ -56,6 +67,7 @@ public class KitRoomUtil {
         }
     }
 
+    @Override
     public void delete(String category) {
         if (exists(category)) {
             kitRoomStorage.set("categories." + category, null);
@@ -64,10 +76,11 @@ public class KitRoomUtil {
         try {
             kitRoomStorage.save(kitRoomFile);
         } catch (IOException e) {
-            logger.log(Level.SEVERE, "Failed to delete category ", e);
+            logger.log(Level.SEVERE, "Failed to save category ): ", e);
         }
     }
 
+    @Override
     public boolean exists(String category) {
         return kitRoomStorage.contains("categories." + category + ".");
     }

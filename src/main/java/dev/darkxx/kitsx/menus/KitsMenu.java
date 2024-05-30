@@ -1,10 +1,10 @@
 package dev.darkxx.kitsx.menus;
 
-import dev.darkxx.kitsx.Main;
+import dev.darkxx.kitsx.KitsX;
 import dev.darkxx.kitsx.menus.config.MenuConfig;
 import dev.darkxx.kitsx.utils.menu.GuiBuilder;
 import dev.darkxx.kitsx.utils.menu.ItemBuilderGUI;
-import dev.darkxx.utils.text.ColorizeText;
+import dev.darkxx.utils.text.color.ColorizeText;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
@@ -21,7 +21,7 @@ import java.util.logging.Logger;
 
 public class KitsMenu extends GuiBuilder {
 
-    private static final Main PLUGIN = Main.getInstance();
+    private static final KitsX PLUGIN = KitsX.getInstance();
     private static final MenuConfig CONFIG = new MenuConfig(PLUGIN, "menus/kits.yml");
     private static final Logger LOGGER = PLUGIN.getLogger();
 
@@ -69,7 +69,7 @@ public class KitsMenu extends GuiBuilder {
         }
     }
 
-    private static void addKitItems(GuiBuilder inventory, Player player) {
+    public static void addKitItems(GuiBuilder inventory, Player player) {
         addItemGroup(inventory, "kits-menu.kits", Material.END_CRYSTAL, player);
     }
 
@@ -77,10 +77,12 @@ public class KitsMenu extends GuiBuilder {
         addItemGroup(inventory, "kits-menu.enderchests", Material.ENDER_CHEST, player);
     }
 
-    private static void addItemGroup(GuiBuilder inventory, String configPath, Material defaultMaterial, Player player) {
-        for (int i = 1; i <= 7; i++) {
-            int slot = i + (configPath.equals("kits-menu.kits") ? 9 : 18);
-            int kitNumber = i;
+    public static void addItemGroup(GuiBuilder inventory, String configPath, Material defaultMaterial, Player player) {
+        List<Integer> slots = CONFIG.getConfig().getIntegerList(configPath + ".slots");
+
+        for (int i = 0; i < slots.size(); i++) {
+            int slot = slots.get(i);
+            int kitNumber = i + 1;
 
             String itemMaterial = CONFIG.getConfig().getString(configPath + ".material", defaultMaterial.name());
             String itemName = CONFIG.getConfig().getString(configPath + ".name", "").replace("%kit%", String.valueOf(kitNumber));
@@ -109,7 +111,7 @@ public class KitsMenu extends GuiBuilder {
                         EnderChestEditor.openEnderChestEditor(player, "Kit " + kitNumber);
                     }
                 } else if (e.isLeftClick()) {
-                    Main.getKitUtil().load(player, "Kit " + kitNumber);
+                    KitsX.getKitUtil().load(player, "Kit " + kitNumber);
                 }
             });
         }
@@ -181,7 +183,7 @@ public class KitsMenu extends GuiBuilder {
                     if (p.isRightClick()) {
                         PremadeKitMenu.createGui(player).open(player);
                     } else if (p.isLeftClick()) {
-                        Main.getPremadeKitUtil().load(player);
+                        KitsX.getPremadeKitUtil().load(player);
                     }
                     break;
             }

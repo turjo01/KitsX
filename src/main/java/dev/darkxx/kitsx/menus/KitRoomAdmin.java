@@ -1,9 +1,9 @@
 package dev.darkxx.kitsx.menus;
 
-import dev.darkxx.kitsx.Main;
+import dev.darkxx.kitsx.KitsX;
 import dev.darkxx.kitsx.utils.menu.GuiBuilder;
 import dev.darkxx.kitsx.utils.menu.ItemBuilderGUI;
-import dev.darkxx.utils.text.ColorizeText;
+import dev.darkxx.utils.text.color.ColorizeText;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
@@ -27,15 +27,15 @@ public class KitRoomAdmin extends GuiBuilder {
             inventory.setItem(slot, filter);
         }
 
-        Main.getKitRoomUtil().load(inventory, category);
+        KitsX.getKitRoomUtil().load(inventory, category);
 
         ItemStack save = new ItemBuilderGUI(Material.LIME_DYE)
                 .name(ColorizeText.mm("<green>Save"))
                 .flags(ItemFlag.HIDE_ATTRIBUTES)
                 .build();
         inventory.setItem(48, save, p -> {
-            Main.getKitRoomUtil().save(player, category);
-            KitsMenu.openKitMenu(player, Main.getInstance()).open(player);
+            KitsX.getKitRoomUtil().save(player, category);
+            KitsMenu.openKitMenu(player, KitsX.getInstance()).open(player);
         });
 
         ItemStack reset = new ItemBuilderGUI(Material.RED_DYE)
@@ -53,7 +53,7 @@ public class KitRoomAdmin extends GuiBuilder {
                 .flags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS)
                 .build();
         inventory.setItem(49, back, p -> {
-            KitsMenu.openKitMenu(player, Main.getInstance()).open(player);
+            KitsMenu.openKitMenu(player, KitsX.getInstance()).open(player);
         });
 
         inventory.addClickHandler(event -> {

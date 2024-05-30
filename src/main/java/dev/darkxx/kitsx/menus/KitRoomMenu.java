@@ -2,10 +2,11 @@
 
 package dev.darkxx.kitsx.menus;
 
-import dev.darkxx.kitsx.Main;
+import dev.darkxx.kitsx.KitsX;
+import dev.darkxx.kitsx.api.events.KitRoomOpenEvent;
 import dev.darkxx.kitsx.utils.menu.GuiBuilder;
 import dev.darkxx.kitsx.utils.menu.ItemBuilderGUI;
-import dev.darkxx.utils.text.ColorizeText;
+import dev.darkxx.utils.text.color.ColorizeText;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -23,11 +24,13 @@ public class KitRoomMenu extends GuiBuilder {
         GuiBuilder inventory = new GuiBuilder(54, "Virtual Kit Room");
 
         inventory.addOpenHandler(event -> {
-            if (Main.getInstance().getConfig().getBoolean("broadcast.kitroom-open", true)) {
-                String bcastLoaded = Main.getInstance().getConfig().getString("broadcast.kitroom-open-message");
+            if (KitsX.getInstance().getConfig().getBoolean("broadcast.kitroom-open", true)) {
+                String bcastLoaded = KitsX.getInstance().getConfig().getString("broadcast.kitroom-open-message");
                 assert bcastLoaded != null;
                 bcastLoaded = bcastLoaded.replace("%player%", player.getName());
                 Bukkit.broadcastMessage(ColorizeText.hex(bcastLoaded));
+
+                Bukkit.getServer().getPluginManager().callEvent(new KitRoomOpenEvent(player));
             }
         });
 
@@ -40,7 +43,7 @@ public class KitRoomMenu extends GuiBuilder {
             inventory.setItem(slot, filter);
         }
 
-        Main.getKitRoomUtil().load(inventory, "CRYSTAL_PVP");
+        KitsX.getKitRoomUtil().load(inventory, "CRYSTAL_PVP");
 
         ItemStack crystalpvp = new ItemBuilderGUI(Material.NETHERITE_SWORD)
                 .name(ColorizeText.hex("&#ff2e2eCrystal PvP"))
@@ -48,7 +51,7 @@ public class KitRoomMenu extends GuiBuilder {
                 .enchant(Enchantment.MENDING, 1)
                 .build();
         inventory.setItem(47, crystalpvp, p -> {
-            Main.getKitRoomUtil().load(inventory, "CRYSTAL_PVP");
+            KitsX.getKitRoomUtil().load(inventory, "CRYSTAL_PVP");
         });
 
         ItemStack potions = new ItemBuilderGUI(Material.BREWING_STAND)
@@ -56,7 +59,7 @@ public class KitRoomMenu extends GuiBuilder {
                 .flags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS)
                 .build();
         inventory.setItem(48, potions, p -> {
-            Main.getKitRoomUtil().load(inventory, "POTIONS");
+            KitsX.getKitRoomUtil().load(inventory, "POTIONS");
         });
 
         ItemStack bowsArrows = new ItemBuilderGUI(Material.SPECTRAL_ARROW)
@@ -64,7 +67,7 @@ public class KitRoomMenu extends GuiBuilder {
                 .flags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS)
                 .build();
         inventory.setItem(50, bowsArrows, p -> {
-            Main.getKitRoomUtil().load(inventory, "BOWS_ARROWS");
+            KitsX.getKitRoomUtil().load(inventory, "BOWS_ARROWS");
         });
 
         ItemStack misc = new ItemBuilderGUI(Material.ENDER_PEARL)
@@ -72,7 +75,7 @@ public class KitRoomMenu extends GuiBuilder {
                 .flags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS)
                 .build();
         inventory.setItem(51, misc, p -> {
-            Main.getKitRoomUtil().load(inventory, "MISC");
+            KitsX.getKitRoomUtil().load(inventory, "MISC");
         });
 
         ItemStack back = new ItemBuilderGUI(Material.RED_STAINED_GLASS_PANE)
@@ -80,7 +83,7 @@ public class KitRoomMenu extends GuiBuilder {
                 .flags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS)
                 .build();
         inventory.setItem(49, back, p -> {
-            KitsMenu.openKitMenu(player, Main.getInstance()).open(player);
+            KitsMenu.openKitMenu(player, KitsX.getInstance()).open(player);
         });
 
         inventory.addClickHandler(event -> {

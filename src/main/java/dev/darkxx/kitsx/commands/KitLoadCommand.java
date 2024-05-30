@@ -12,11 +12,11 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public class PremadeKitCommand extends XyrisCommand<KitsX> {
+public class KitLoadCommand extends XyrisCommand<KitsX> {
 
-    public PremadeKitCommand(KitsX plugin) {
-        super(plugin, "kitsx", "premadekit");
-        addTabbComplete(0, "kitsx.admin", (String[]) null, "save");
+    public KitLoadCommand(KitsX plugin, String name, int kit) {
+        super(plugin, "kitsx", name);
+        setAliases("k" + kit);
         registerCommand();
     }
 
@@ -34,20 +34,22 @@ public class PremadeKitCommand extends XyrisCommand<KitsX> {
             }
         }
 
-        if (args.length == 0) {
-            KitsX.getPremadeKitUtil().load(player);
-            return true;
-        }
+        int kits = getPlugin().getConfig().getInt("kits", 7);
 
-        if (args.length == 1 && args[0].equalsIgnoreCase("save")) {
-            if (player.hasPermission("kitsx.admin")) {
-                KitsX.getPremadeKitUtil().save(player);
-            } else {
-                String noPerm = Objects.requireNonNull(KitsX.getInstance().getConfig().getString("messages.no-permission"));
-                player.sendMessage(ColorizeText.hex(noPerm));
+        String cmdName = command.getName();
+
+        for (int i = 1; i <= kits; i++) {
+            if (cmdName.equalsIgnoreCase("kit" + i)) {
+                if (player.hasPermission("kitsx." + cmdName)) {
+                    KitsX.getKitUtil().load(player, "Kit " + i);
+
+                    return true;
+                } else {
+                    player.sendMessage(ColorizeText.hex("&#ffa6a6You don't have permission to use Kit " + i + "."));
+                    return true;
+                }
             }
-            return true;
         }
-        return true;
+        return false;
     }
 }

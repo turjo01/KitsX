@@ -1,12 +1,15 @@
 package dev.darkxx.kitsx.utils;
 
-import dev.darkxx.kitsx.Main;
+import dev.darkxx.kitsx.KitsX;
+import dev.darkxx.kitsx.api.EnderChestAPI;
 import dev.darkxx.kitsx.utils.menu.GuiBuilder;
-import dev.darkxx.utils.text.ColorizeText;
+import dev.darkxx.utils.text.color.ColorizeText;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,7 +17,7 @@ import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class EnderChestUtil {
+public class EnderChestUtil implements EnderChestAPI {
 
     private static final Logger logger = Logger.getLogger(EnderChestUtil.class.getName());
 
@@ -26,6 +29,15 @@ public class EnderChestUtil {
         this.enderchestStorage = enderchestStorage;
     }
 
+    public static EnderChestUtil of(JavaPlugin plugin) {
+        File enderchestFile = new File(plugin.getDataFolder(), "data/enderchest.yml");
+        if (!enderchestFile.exists()) {
+            plugin.saveResource("data/enderchest.yml", false);
+        }
+        return new EnderChestUtil(enderchestFile, YamlConfiguration.loadConfiguration(enderchestFile));
+    }
+
+    @Override
     public void save(Player player, String kitName) {
         String playerName = player.getUniqueId().toString();
         if (exists(player, kitName)) {
@@ -41,43 +53,45 @@ public class EnderChestUtil {
 
         try {
             enderchestStorage.save(enderchestFile);
-            String enderchestSaved = Objects.requireNonNull(Main.getInstance().getConfig().getString("messages.enderchest-saved")).replace("%kit%", kitName);
+            String enderchestSaved = Objects.requireNonNull(KitsX.getInstance().getConfig().getString("messages.enderchest-saved")).replace("%kit%", kitName);
             player.sendMessage(ColorizeText.hex(enderchestSaved));
         } catch (IOException e) {
-            logger.log(Level.SEVERE, "failed to save ender chest ); ", e);
+            logger.log(Level.SEVERE, "Failed to save ender chest ); ", e);
         }
     }
 
+    @Override
     public void load(Player player, String kitName) {
         String playerName = player.getUniqueId().toString();
         player.getEnderChest().clear();
 
-        if (enderchestStorage.contains(playerName + "." + kitName + ".enderchest")) {
-            for (int i = 0; i < 27; i++) {
-                ItemStack item = enderchestStorage.getItemStack(playerName + "." + kitName + ".enderchest." + i);
+        ConfigurationSection section = enderchestStorage.getConfigurationSection(playerName + "." + kitName + ".enderchest");
+        if (section != null) {
+            for (String key : section.getKeys(false)) {
+                ItemStack item = section.getItemStack(key);
                 if (item != null) {
-                    player.getEnderChest().setItem(i, item);
+                    player.getEnderChest().setItem(Integer.parseInt(key), item);
                 }
             }
         }
     }
 
+    @Override
     public void set(Player player, String kitName, GuiBuilder inventory) {
         String playerName = player.getUniqueId().toString();
 
-        if (enderchestStorage.contains(playerName + "." + kitName + ".enderchest")) {
-            ConfigurationSection section = enderchestStorage.getConfigurationSection(playerName + "." + kitName + ".enderchest");
-            if (section != null) {
-                for (String key : section.getKeys(false)) {
-                    ItemStack item = section.getItemStack(key);
-                    if (item != null) {
-                        inventory.setItem(Integer.parseInt(key), item);
-                    }
+        ConfigurationSection section = enderchestStorage.getConfigurationSection(playerName + "." + kitName + ".enderchest");
+        if (section != null) {
+            for (String key : section.getKeys(false)) {
+                ItemStack item = section.getItemStack(key);
+                if (item != null) {
+                    inventory.setItem(Integer.parseInt(key), item);
                 }
             }
         }
     }
 
+    @Override
     public void delete(Player player, String kitName) {
         String playerName = player.getUniqueId().toString();
 
@@ -86,20 +100,22 @@ public class EnderChestUtil {
         try {
             enderchestStorage.save(enderchestFile);
         } catch (IOException e) {
-            logger.log(Level.SEVERE, "failed to save ender chest ); ", e);
+            logger.log(Level.SEVERE, "Failed to save ender chest ); ", e);
         }
     }
 
+    @Override
     public boolean exists(Player player, String kitName) {
         String playerName = player.getUniqueId().toString();
-
         return enderchestStorage.contains(playerName + "." + kitName + ".enderchest");
     }
+
+    @Override
     public void saveAll() {
         try {
             enderchestStorage.save(enderchestFile);
         } catch (IOException e) {
-            logger.log(Level.SEVERE, "failed to save ender chest ); ", e);
+            logger.log(Level.SEVERE, "Failed to save ender chest ); ", e);
         }
     }
 }

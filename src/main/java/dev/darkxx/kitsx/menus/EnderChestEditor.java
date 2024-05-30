@@ -1,10 +1,10 @@
 package dev.darkxx.kitsx.menus;
 
-import dev.darkxx.kitsx.Main;
+import dev.darkxx.kitsx.KitsX;
 import dev.darkxx.kitsx.utils.menu.GuiBuilder;
 import dev.darkxx.kitsx.utils.menu.ItemBuilderGUI;
 import dev.darkxx.kitsx.menus.config.MenuConfig;
-import dev.darkxx.utils.text.ColorizeText;
+import dev.darkxx.utils.text.color.ColorizeText;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 public class EnderChestEditor extends GuiBuilder {
-    private static final Main PLUGIN = Main.getInstance();
+    private static final KitsX PLUGIN = KitsX.getInstance();
     private static final MenuConfig CONFIG = new MenuConfig(PLUGIN, "menus/enderchest-editor.yml");
     private static final Logger LOGGER = PLUGIN.getLogger();
 
@@ -34,7 +34,7 @@ public class EnderChestEditor extends GuiBuilder {
 
         GuiBuilder inventory = new GuiBuilder(inventorySize, inventoryTitle);
 
-        Main.getEnderChestUtil().set(player, kitName, inventory);
+        KitsX.getEnderChestUtil().set(player, kitName, inventory);
 
         addFilterItems(inventory);
         addItems(inventory, player, kitName);
@@ -119,8 +119,8 @@ public class EnderChestEditor extends GuiBuilder {
         inventory.setItem(itemSlot, item, p -> {
             switch (configName) {
                 case "save":
-                    Main.getEnderChestUtil().save(player, kitName);
-                    KitsMenu.openKitMenu(player, Main.getInstance()).open(player);
+                    KitsX.getEnderChestUtil().save(player, kitName);
+                    KitsMenu.openKitMenu(player, KitsX.getInstance()).open(player);
                     break;
                 case "reset":
                     for (int i = 0; i <= 26; i++) {
@@ -128,7 +128,7 @@ public class EnderChestEditor extends GuiBuilder {
                     }
                     break;
                 case "back":
-                    KitsMenu.openKitMenu(player, Main.getInstance()).open(player);
+                    KitsMenu.openKitMenu(player, KitsX.getInstance()).open(player);
                     break;
             }
         });

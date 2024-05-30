@@ -1,3 +1,9 @@
+# You can define the number of kits that a player can save here. By default, players will have permissions for all the kits,
+# but you can use a Permission Manager, such as LuckPerms, to set, for example, 'kitsx.kit7' to false for a player or a LuckPerms group,
+# and, They won't be able to load/use the Kit 7
+
+kits: 7
+
 broadcast:
   kit-load: true
   kit-load-message: "&#7cff6e%player% loaded %kit%."
@@ -5,7 +11,6 @@ broadcast:
   kitroom-open-message: "&#7cff6e%player% opened the Virtual Kit Room."
   premadekit-load: true
   premadekit-load-message: "&#7cff6e%player% loaded the premade kit."
-
 
 messages:
   no-permission: "&#ffa6a6You do not have permission to use this command."
@@ -16,7 +21,7 @@ messages:
   premade-kit-saved: "&#7cff6ePremade kit saved successfully!"
   premade-kit-loaded: "&#7cff6ePremade kit loaded successfully!"
   premade-kit-empty: "&#ffa6a6The premade kit is empty."
+  auto-rekit-kit-selected: "&#7cff6eAuto Rekit kit set to %kit%."
+  send-auto-rekit-message: true
+  auto-rekit-message: "&#7cff6eAutomatically rekitted for you. Use /autorekit to toggle or edit the kit."
 
-blacklisted-regions:
-  - swordffa
-  - netheritepotion

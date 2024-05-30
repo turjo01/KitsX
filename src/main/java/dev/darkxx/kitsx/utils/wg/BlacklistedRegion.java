@@ -1,7 +1,7 @@
 package dev.darkxx.kitsx.utils.wg;
 
-import dev.darkxx.utils.worldguard.WorldGuardUtils;
-import dev.darkxx.kitsx.Main;
+import dev.darkxx.kitsx.KitsX;
+import dev.darkxx.utils.worldguard.WorldGuardUtil;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -9,10 +9,10 @@ import java.util.List;
 public class BlacklistedRegion {
 
     public static boolean isInBlacklistedRegion(Player player) {
-        List<String> blacklistedRegions = Main.getInstance().getConfig().getStringList("blacklisted-regions");
+        List<String> blacklistedRegions = KitsX.getInstance().getConfig().getStringList("blacklisted-regions");
 
         for (String region : blacklistedRegions) {
-            if (WorldGuardUtils.isinRegion(player, region)) {
+            if (WorldGuardUtil.isinRegion(player, region)) {
                 return true;
             }
         }

@@ -26,7 +26,7 @@ public final class GuiManager {
         Objects.requireNonNull(plugin, "plugin");
 
         if (REGISTERED.getAndSet(true)) {
-            throw new IllegalStateException("FFA is already registered");
+            throw new IllegalStateException("XMenus is already registered");
         }
 
         Bukkit.getPluginManager().registerEvents(new InventoryListener(plugin), plugin);

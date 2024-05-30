@@ -11,22 +11,19 @@ java.sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {
     mavenLocal()
+    mavenCentral()
     maven {
         url = uri("https://repo.papermc.io/repository/maven-public/")
     }
-
     maven {
-        url = uri("https://oss.sonatype.org/content/groups/public/")
-    }
-
-    maven {
-        url = uri("https://repo.maven.apache.org/maven2/")
+        url = uri("https://repo.skriptlang.org/releases")
     }
 }
 
 dependencies {
-    implementation(files("${projectDir}/libs/xUtils-1.0.jar"))
+    implementation("dev.darkxx:xUtils:2.0.0")
 
+    compileOnly("com.github.SkriptLang:Skript:dev37c")
     compileOnly("io.papermc.paper:paper-api:1.20.6-R0.1-SNAPSHOT")
 }
 
