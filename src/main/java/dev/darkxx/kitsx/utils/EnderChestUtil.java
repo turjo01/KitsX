@@ -2,7 +2,7 @@ package dev.darkxx.kitsx.utils;
 
 import dev.darkxx.kitsx.KitsX;
 import dev.darkxx.kitsx.api.EnderChestAPI;
-import dev.darkxx.kitsx.utils.menu.GuiBuilder;
+import dev.darkxx.utils.menu.xmenu.GuiBuilder;
 import dev.darkxx.utils.text.color.ColorizeText;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;

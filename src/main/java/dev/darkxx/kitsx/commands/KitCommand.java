@@ -19,6 +19,7 @@ public class KitCommand extends XyrisCommand<KitsX> {
     public KitCommand(KitsX plugin) {
         super(plugin, "kitsx", "kit");
         setAliases("k");
+        setUsage("");
         registerCommand();
     }
 

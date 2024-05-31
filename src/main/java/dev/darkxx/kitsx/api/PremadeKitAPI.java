@@ -1,6 +1,6 @@
 package dev.darkxx.kitsx.api;
 
-import dev.darkxx.kitsx.utils.menu.GuiBuilder;
+import dev.darkxx.utils.menu.xmenu.GuiBuilder;
 import org.bukkit.entity.Player;
 
 /**

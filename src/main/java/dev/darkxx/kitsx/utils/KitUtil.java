@@ -4,7 +4,7 @@ import dev.darkxx.kitsx.KitsX;
 import dev.darkxx.kitsx.api.KitsAPI;
 import dev.darkxx.kitsx.api.events.KitLoadEvent;
 import dev.darkxx.kitsx.api.events.KitSaveEvent;
-import dev.darkxx.kitsx.utils.menu.GuiBuilder;
+import dev.darkxx.utils.menu.xmenu.GuiBuilder;
 import dev.darkxx.utils.text.color.ColorizeText;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;

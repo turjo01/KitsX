@@ -1,16 +1,17 @@
 package dev.darkxx.kitsx;
 
 import dev.darkxx.kitsx.commands.*;
-import dev.darkxx.kitsx.commands.admin.KitsAdminCommand;
+import dev.darkxx.kitsx.commands.admin.*;
 import dev.darkxx.kitsx.hooks.HooksImpl;
-import dev.darkxx.kitsx.listeners.AutoRekitListener;
-import dev.darkxx.kitsx.utils.*;
+import dev.darkxx.kitsx.listeners.*;
 import dev.darkxx.kitsx.menus.config.MenuConfig;
-import dev.darkxx.kitsx.utils.menu.GuiManager;
+import dev.darkxx.kitsx.utils.*;
 import dev.darkxx.utils.library.Utils;
 import dev.darkxx.utils.library.wrapper.PluginWrapper;
+import dev.darkxx.utils.menu.xmenu.GuiManager;
+import dev.darkxx.utils.misc.Versions;
+import dev.darkxx.utils.server.Servers;
 import dev.darkxx.utils.text.color.ColorizeText;
-import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -25,14 +26,14 @@ public final class KitsX extends PluginWrapper {
     private static KitRoomUtil kitRoomUtil;
     private static AutoRekitUtil autoRekitUtil;
 
-
     @Override
     protected void start() {
         instance = this;
         Utils.init(this);
         GuiManager.register(this);
-        ConsoleCommandSender log = Bukkit.getServer().getConsoleSender();
         saveDefaultConfig();
+
+        ConsoleCommandSender log = Servers.server().getConsoleSender();
 
         KitUtil.of(this);
         kitUtil = new KitUtil(new File(getDataFolder(), "data/kits.yml"), YamlConfiguration.loadConfiguration(new File(getDataFolder(), "data/kits.yml")));
@@ -49,10 +50,13 @@ public final class KitsX extends PluginWrapper {
         AutoRekitUtil.of(this);
         autoRekitUtil = new AutoRekitUtil(new File(getDataFolder(), "data/autorekit.yml"), YamlConfiguration.loadConfiguration(new File(getDataFolder(), "data/autorekit.yml")));
 
-
         MenuConfig.of(this);
 
-        getServer().getPluginManager().registerEvents(new AutoRekitListener(), this);
+        Servers.server().getPluginManager().registerEvents(new AutoRekitListener(), this);
+        if (Versions.isHigherThanOrEqualTo("1.20.1")) {
+            AutoRekitAnchorListener autoRekitAnchorListener = new AutoRekitAnchorListener();
+            autoRekitAnchorListener.register(this);
+        }
 
         new KitCommand(this);
         new KitRoomAdminCommand(this);
@@ -72,7 +76,9 @@ public final class KitsX extends PluginWrapper {
 
     @Override
     protected void stop() {
-        // do nothing :D
+        getKitUtil().saveAll();
+        getPremadeKitUtil().saveAll();
+        getEnderChestUtil().saveAll();
     }
 
     public static KitsX getInstance() {

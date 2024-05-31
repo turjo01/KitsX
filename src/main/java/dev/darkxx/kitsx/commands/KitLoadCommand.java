@@ -17,6 +17,7 @@ public class KitLoadCommand extends XyrisCommand<KitsX> {
     public KitLoadCommand(KitsX plugin, String name, int kit) {
         super(plugin, "kitsx", name);
         setAliases("k" + kit);
+        setUsage("");
         registerCommand();
     }
 

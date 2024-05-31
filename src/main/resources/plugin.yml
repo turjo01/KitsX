@@ -1,7 +1,7 @@
 name: KitsX
 version: '1.0'
 main: dev.darkxx.kitsx.KitsX
-api-version: '1.20'
+api-version: '1.18'
 authors:
   - Darkxx
   - XyrisPlugins
@@ -13,4 +13,6 @@ website: https://xyris.fun/
 
 permissions:
   kitsx.admin:
+    default: op
+  kitsx.autokit:
     default: op

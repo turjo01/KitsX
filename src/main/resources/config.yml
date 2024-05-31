@@ -25,3 +25,6 @@ messages:
   send-auto-rekit-message: true
   auto-rekit-message: "&#7cff6eAutomatically rekitted for you. Use /autorekit to toggle or edit the kit."
 
+blacklisted-regions:
+  - "arena1"
+  - "arena2"

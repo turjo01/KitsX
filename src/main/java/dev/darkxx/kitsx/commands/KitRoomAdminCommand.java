@@ -16,8 +16,14 @@ public class KitRoomAdminCommand extends XyrisCommand<KitsX> {
 
     public KitRoomAdminCommand(KitsX plugin) {
         super(plugin, "kitsx", "kitroomadmin");
-        addTabbComplete(0, String.valueOf(ACTIONS));
-        addTabbComplete(1, String.valueOf(CATEGORIES));
+        addTabbComplete(0, "add");
+        addTabbComplete(0, "clear");
+        addTabbComplete(1, "CRYSTAL_PVP");
+        addTabbComplete(1, "POTIONS");
+        addTabbComplete(1, "BOWS_ARROWS");
+        addTabbComplete(1, "MISC");
+        setPermission("kitsx.admin");
+        setUsage("");
         registerCommand();
     }
 
@@ -31,12 +37,12 @@ public class KitRoomAdminCommand extends XyrisCommand<KitsX> {
         }
 
         if (args.length != 2 && player.hasPermission("kitsx.admin")) {
-            sender.sendMessage(ColorizeText.hex("&#ffa6a6Usage: /kitroomadmin <category> <add/clear>"));
+            sender.sendMessage(ColorizeText.hex("&#ffa6a6Usage: /kitroomadmin <add/clear> <category>"));
             return false;
         }
 
-        String category = args[0].toUpperCase();
-        String action = args[1].toLowerCase();
+        String action = args[0].toLowerCase();
+        String category = args[1].toUpperCase();
 
         if (CATEGORIES.contains(category) && ACTIONS.contains(action)) {
             if ("add".equals(action)) {

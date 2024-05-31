@@ -23,6 +23,7 @@ public class KitsAdminCommand extends XyrisCommand<KitsX> {
         super(plugin, "kitsx", "kitsadmin");
         addTabbComplete(0, "view");
         addTabbComplete(0, "clear");
+        setUsage("");
         registerCommand();
     }
 
@@ -47,19 +48,20 @@ public class KitsAdminCommand extends XyrisCommand<KitsX> {
         switch (args[0].toLowerCase()) {
             case "view":
                 if (args.length != 2) {
-                    sender.sendMessage("&#ffa6a6Usage: /kitsadmin view <player>");
+                    sender.sendMessage(ColorizeText.hex("&#ffa6a6Usage: /kitsadmin view <player>"));
                     return true;
                 }
                 KitViewMenu.openKitSelectMenu(executor, targetPlayer.getName());
                 break;
             case "clear":
                 if (args.length < 3) {
-                    sender.sendMessage("&#ffa6a6Usage: /kitsadmin clear <player> <kit name>");
+                    sender.sendMessage(ColorizeText.hex("&#ffa6a6Usage: /kitsadmin clear <player> <kit name>"));
                     return true;
                 }
                 String kitName = Stream.of(args).skip(2).collect(Collectors.joining(" "));
                 KitsX.getKitUtil().delete((Player) targetPlayer, kitName);
-                executor.sendMessage("&#7cff6e" + kitName + " has been cleared for player " + targetPlayer.getName() + ".");
+                KitsX.getEnderChestUtil().delete((Player) targetPlayer, kitName);
+                executor.sendMessage(ColorizeText.hex("&#7cff6e" + kitName + " has been cleared for player " + targetPlayer.getName() + "."));
                 break;
             default:
                 break;

@@ -17,6 +17,9 @@ public class AutoRekitCommand extends XyrisCommand<KitsX> {
 
     public AutoRekitCommand(KitsX plugin) {
         super(plugin, "kitsx", "autorekit");
+        setAliases("autokit");
+        setPermission("kitsx.autorekit");
+        setUsage("");
         registerCommand();
     }
 

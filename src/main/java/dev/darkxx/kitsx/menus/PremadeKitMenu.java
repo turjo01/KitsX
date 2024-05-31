@@ -3,8 +3,8 @@
 package dev.darkxx.kitsx.menus;
 
 import dev.darkxx.kitsx.KitsX;
-import dev.darkxx.kitsx.utils.menu.GuiBuilder;
-import dev.darkxx.kitsx.utils.menu.ItemBuilderGUI;
+import dev.darkxx.utils.menu.xmenu.GuiBuilder;
+import dev.darkxx.utils.menu.xmenu.ItemBuilderGUI;
 import dev.darkxx.utils.text.color.ColorizeText;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

@@ -1,6 +1,7 @@
 package dev.darkxx.kitsx.listeners;
 
 import dev.darkxx.kitsx.KitsX;
+import dev.darkxx.utils.event.crystal.PlayerCrystalDeathEvent;
 import dev.darkxx.utils.text.color.ColorizeText;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -11,31 +12,38 @@ import org.bukkit.event.player.PlayerJoinEvent;
 public class AutoRekitListener implements Listener {
 
     @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent event) {
-        Player player = event.getPlayer();
+    public void onPlayerJoin(PlayerJoinEvent e) {
+        Player player = e.getPlayer();
         if (!KitsX.getAutoRekitUtil().hasAutoRekit(player)) {
             KitsX.getAutoRekitUtil().set(player, false, "Kit 1");
         }
     }
 
     @EventHandler
-    public void onDeath(PlayerDeathEvent event) {
-        Player victim = event.getEntity();
+    public void onDeath(PlayerDeathEvent e) {
+        Player victim = e.getEntity();
         Player attacker = victim.getKiller();
         if (attacker != null) {
             if (KitsX.getAutoRekitUtil().isEnabled(attacker)) {
-                loadAndSend(attacker);
+                load(attacker);
             }
         }
     }
 
-    private void loadAndSend(Player player) {
-        String kit = KitsX.getAutoRekitUtil().getKit(player);
-        KitsX.getKitUtil().load(player, kit);
-        send(player);
+    @EventHandler
+    public void onCrystalDeath(PlayerCrystalDeathEvent e) {
+        Player victim = e.victim();
+        Player attacker = victim.getKiller();
+        if (attacker != null) {
+            if (KitsX.getAutoRekitUtil().isEnabled(attacker)) {
+                load(attacker);
+            }
+        }
     }
 
-    private void send(Player player) {
+    public static void load(Player player) {
+        String kit = KitsX.getAutoRekitUtil().getKit(player);
+        KitsX.getKitUtil().load(player, kit);
         if (!KitsX.getInstance().getConfig().getBoolean("messages.send-auto-rekit-message", true)) {
             return;
         }

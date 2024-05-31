@@ -17,6 +17,7 @@ public class PremadeKitCommand extends XyrisCommand<KitsX> {
     public PremadeKitCommand(KitsX plugin) {
         super(plugin, "kitsx", "premadekit");
         addTabbComplete(0, "kitsx.admin", (String[]) null, "save");
+        setUsage("");
         registerCommand();
     }
 

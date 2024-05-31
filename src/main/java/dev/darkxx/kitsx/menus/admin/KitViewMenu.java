@@ -2,8 +2,8 @@ package dev.darkxx.kitsx.menus.admin;
 
 import dev.darkxx.kitsx.KitsX;
 import dev.darkxx.kitsx.menus.config.MenuConfig;
-import dev.darkxx.kitsx.utils.menu.GuiBuilder;
-import dev.darkxx.kitsx.utils.menu.ItemBuilderGUI;
+import dev.darkxx.utils.menu.xmenu.GuiBuilder;
+import dev.darkxx.utils.menu.xmenu.ItemBuilderGUI;
 import dev.darkxx.utils.text.color.ColorizeText;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -26,6 +26,8 @@ public class KitViewMenu extends GuiBuilder {
     public static void openKitSelectMenu(Player executor, String targetPlayerName) {
         GuiBuilder inventory = new GuiBuilder(36, targetPlayerName + " - " + "Kits");
         List<Integer> slots = CONFIG.getConfig().getIntegerList("kits-menu.kits.slots");
+        List<Integer> slots1 = CONFIG.getConfig().getIntegerList("kits-menu.enderchests.slots");
+
 
         for (int s = 0; s < inventory.getInventory().getSize(); s++) {
             ItemStack filter = new ItemBuilderGUI(Material.BLACK_STAINED_GLASS_PANE)
@@ -44,14 +46,27 @@ public class KitViewMenu extends GuiBuilder {
                     .flags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS)
                     .build();
             inventory.setItem(slot, back, p -> {
-                openKitViewMenu(executor, targetPlayerName, "Kit " + kitNumber);
+                kit(executor, targetPlayerName, "Kit " + kitNumber);
+            });
+        }
+
+        for (int i = 0; i < slots1.size(); i++) {
+            int slot = slots1.get(i);
+            int kitNumber = i + 1;
+
+            ItemStack enderchest = new ItemBuilderGUI(Material.ENDER_CHEST)
+                    .name(ColorizeText.mm("<#4561a3>Ender Chest " + kitNumber))
+                    .flags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS)
+                    .build();
+            inventory.setItem(slot, enderchest, p -> {
+                ec(executor, targetPlayerName, "Kit " + kitNumber);
             });
         }
 
         inventory.open(executor);
     }
 
-    public static void openKitViewMenu(Player executor, String targetPlayerName, String kitName) {
+    public static void kit(Player executor, String targetPlayerName, String kitName) {
         OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(targetPlayerName);
         Player targetPlayer = Bukkit.getPlayerExact(targetPlayerName);
         if (targetPlayer == null) {
@@ -80,6 +95,41 @@ public class KitViewMenu extends GuiBuilder {
                 .flags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS)
                 .build();
         inventory.setItem(44, back, p -> {
+            openKitSelectMenu(executor, targetPlayerName);
+        });
+
+        inventory.open(executor);
+    }
+
+    public static void ec(Player executor, String targetPlayerName, String kitName) {
+        OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(targetPlayerName);
+        Player targetPlayer = Bukkit.getPlayerExact(targetPlayerName);
+        if (targetPlayer == null) {
+            return;
+        }
+
+        if (!offlinePlayer.isOnline()) {
+            executor.sendMessage(ColorizeText.mm("<&#ffa6a6>Player " + targetPlayerName + " is not online."));
+            return;
+        }
+
+        GuiBuilder inventory = new GuiBuilder(36, targetPlayerName + " - Ender Chest" + kitName);
+        KitsX.getEnderChestUtil().set(targetPlayer, kitName, inventory);
+
+        for (int i = 1; i <= 8; i++) {
+            int slot = i + 26;
+            ItemStack filter = new ItemBuilderGUI(Material.BLACK_STAINED_GLASS_PANE)
+                    .name(" ")
+                    .flags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS)
+                    .build();
+            inventory.setItem(slot, filter);
+        }
+
+        ItemStack back = new ItemBuilderGUI(Material.RED_STAINED_GLASS_PANE)
+                .name(ColorizeText.mm("<#ffa6a6>Back"))
+                .flags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS)
+                .build();
+        inventory.setItem(35, back, p -> {
             openKitSelectMenu(executor, targetPlayerName);
         });
 

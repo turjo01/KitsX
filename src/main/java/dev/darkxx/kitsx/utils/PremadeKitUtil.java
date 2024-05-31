@@ -2,7 +2,7 @@ package dev.darkxx.kitsx.utils;
 
 import dev.darkxx.kitsx.KitsX;
 import dev.darkxx.kitsx.api.PremadeKitAPI;
-import dev.darkxx.kitsx.utils.menu.GuiBuilder;
+import dev.darkxx.utils.menu.xmenu.GuiBuilder;
 import dev.darkxx.utils.text.color.ColorizeText;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
