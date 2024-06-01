@@ -34,9 +34,7 @@ public class PremadeKitMenu extends GuiBuilder {
                 .name(ColorizeText.mm("<#ffa6a6>Back"))
                 .flags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS)
                 .build();
-        inventory.setItem(53, back, p -> {
-            KitsMenu.openKitMenu(player, KitsX.getInstance()).open(player);
-        });
+        inventory.setItem(53, back, p -> KitsMenu.openKitMenu(player).open(player));
 
         return inventory;
     }

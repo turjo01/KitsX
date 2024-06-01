@@ -1,4 +1,4 @@
-package dev.darkxx.kitsx.menus.config;
+package dev.darkxx.kitsx.utils.config;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;

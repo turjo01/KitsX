@@ -1,7 +1,7 @@
 package dev.darkxx.kitsx.menus.admin;
 
 import dev.darkxx.kitsx.KitsX;
-import dev.darkxx.kitsx.menus.config.MenuConfig;
+import dev.darkxx.kitsx.utils.config.MenuConfig;
 import dev.darkxx.utils.menu.xmenu.GuiBuilder;
 import dev.darkxx.utils.menu.xmenu.ItemBuilderGUI;
 import dev.darkxx.utils.text.color.ColorizeText;
@@ -19,7 +19,7 @@ public class KitViewMenu extends GuiBuilder {
     private static final KitsX PLUGIN = KitsX.getInstance();
     private static final MenuConfig CONFIG = new MenuConfig(PLUGIN, "menus/kits.yml");
 
-    public KitViewMenu(int size) {
+    public KitViewMenu() {
         super(36);
     }
 
@@ -45,9 +45,7 @@ public class KitViewMenu extends GuiBuilder {
                     .name(ColorizeText.mm("<#ff2e2e>Kit " + kitNumber))
                     .flags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS)
                     .build();
-            inventory.setItem(slot, back, p -> {
-                kit(executor, targetPlayerName, "Kit " + kitNumber);
-            });
+            inventory.setItem(slot, back, p -> kit(executor, targetPlayerName, "Kit " + kitNumber));
         }
 
         for (int i = 0; i < slots1.size(); i++) {
@@ -58,9 +56,7 @@ public class KitViewMenu extends GuiBuilder {
                     .name(ColorizeText.mm("<#4561a3>Ender Chest " + kitNumber))
                     .flags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS)
                     .build();
-            inventory.setItem(slot, enderchest, p -> {
-                ec(executor, targetPlayerName, "Kit " + kitNumber);
-            });
+            inventory.setItem(slot, enderchest, p -> ec(executor, targetPlayerName, "Kit " + kitNumber));
         }
 
         inventory.open(executor);
@@ -94,9 +90,7 @@ public class KitViewMenu extends GuiBuilder {
                 .name(ColorizeText.mm("<#ffa6a6>Back"))
                 .flags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS)
                 .build();
-        inventory.setItem(44, back, p -> {
-            openKitSelectMenu(executor, targetPlayerName);
-        });
+        inventory.setItem(44, back, p -> openKitSelectMenu(executor, targetPlayerName));
 
         inventory.open(executor);
     }
@@ -129,9 +123,7 @@ public class KitViewMenu extends GuiBuilder {
                 .name(ColorizeText.mm("<#ffa6a6>Back"))
                 .flags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS)
                 .build();
-        inventory.setItem(35, back, p -> {
-            openKitSelectMenu(executor, targetPlayerName);
-        });
+        inventory.setItem(35, back, p -> openKitSelectMenu(executor, targetPlayerName));
 
         inventory.open(executor);
     }

@@ -46,7 +46,7 @@ public class CondEqualsKit extends Condition {
     }
 
     @Override
-    public String toString(Event e, boolean debug) {
+    public @NotNull String toString(Event e, boolean debug) {
         return (isNegated() ? "kit isn't equal to " : "kit is equal to ") + kitNameExpr.toString(e, debug);
     }
 }

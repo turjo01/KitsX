@@ -1,7 +1,7 @@
 package dev.darkxx.kitsx.menus;
 
 import dev.darkxx.kitsx.KitsX;
-import dev.darkxx.kitsx.menus.config.MenuConfig;
+import dev.darkxx.kitsx.utils.config.MenuConfig;
 import dev.darkxx.utils.menu.xmenu.GuiBuilder;
 import dev.darkxx.utils.menu.xmenu.ItemBuilderGUI;
 import dev.darkxx.utils.text.color.ColorizeText;
@@ -11,7 +11,6 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,7 +28,7 @@ public class KitsMenu extends GuiBuilder {
         super(size);
     }
 
-    public static GuiBuilder openKitMenu(Player player, Plugin plugin) {
+    public static GuiBuilder openKitMenu(Player player) {
         int inventorySize = CONFIG.getConfig().getInt("kits-menu.size", 54);
         String kitsTitle = CONFIG.getConfig().getString("kits-menu.title", "Kits");
         String inventoryTitle = ColorizeText.hex(kitsTitle);
@@ -129,6 +128,7 @@ public class KitsMenu extends GuiBuilder {
         addItem(inventory, "kits-menu.premadekit", Material.NETHERITE_CHESTPLATE, player);
     }
 
+    @SuppressWarnings("deprecation")
     private static void addItem(GuiBuilder inventory, String configName, Material defaultMaterial, Player player) {
         String itemMaterial = CONFIG.getConfig().getString(configName + ".material", defaultMaterial.name());
         String itemName = CONFIG.getConfig().getString(configName + ".name", "");
@@ -160,6 +160,7 @@ public class KitsMenu extends GuiBuilder {
             }
         }
 
+        @SuppressWarnings("deprecation")
         ItemStack item = new ItemBuilderGUI(Material.valueOf(itemMaterial))
                 .name(ColorizeText.hex(itemName))
                 .flags(flags.toArray(new ItemFlag[0]))

@@ -20,6 +20,7 @@ public class KitRoomMenu extends GuiBuilder {
         super(54);
     }
 
+    @SuppressWarnings("deprecation")
     public static GuiBuilder openKitRoom(Player player) {
         GuiBuilder inventory = new GuiBuilder(54, "Virtual Kit Room");
 
@@ -50,41 +51,31 @@ public class KitRoomMenu extends GuiBuilder {
                 .flags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS)
                 .enchant(Enchantment.MENDING, 1)
                 .build();
-        inventory.setItem(47, crystalpvp, p -> {
-            KitsX.getKitRoomUtil().load(inventory, "CRYSTAL_PVP");
-        });
+        inventory.setItem(47, crystalpvp, p -> KitsX.getKitRoomUtil().load(inventory, "CRYSTAL_PVP"));
 
         ItemStack potions = new ItemBuilderGUI(Material.BREWING_STAND)
                 .name(ColorizeText.hex("&#ff2e2ePotions"))
                 .flags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS)
                 .build();
-        inventory.setItem(48, potions, p -> {
-            KitsX.getKitRoomUtil().load(inventory, "POTIONS");
-        });
+        inventory.setItem(48, potions, p -> KitsX.getKitRoomUtil().load(inventory, "POTIONS"));
 
         ItemStack bowsArrows = new ItemBuilderGUI(Material.SPECTRAL_ARROW)
                 .name(ColorizeText.hex("&#ff2e2eBows & Arrows"))
                 .flags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS)
                 .build();
-        inventory.setItem(50, bowsArrows, p -> {
-            KitsX.getKitRoomUtil().load(inventory, "BOWS_ARROWS");
-        });
+        inventory.setItem(50, bowsArrows, p -> KitsX.getKitRoomUtil().load(inventory, "BOWS_ARROWS"));
 
         ItemStack misc = new ItemBuilderGUI(Material.ENDER_PEARL)
                 .name(ColorizeText.hex("&#ff2e2eMisc"))
                 .flags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS)
                 .build();
-        inventory.setItem(51, misc, p -> {
-            KitsX.getKitRoomUtil().load(inventory, "MISC");
-        });
+        inventory.setItem(51, misc, p -> KitsX.getKitRoomUtil().load(inventory, "MISC"));
 
         ItemStack back = new ItemBuilderGUI(Material.RED_STAINED_GLASS_PANE)
                 .name(ColorizeText.hex("&#ffa6a6Back"))
                 .flags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS)
                 .build();
-        inventory.setItem(49, back, p -> {
-            KitsMenu.openKitMenu(player, KitsX.getInstance()).open(player);
-        });
+        inventory.setItem(49, back, p -> KitsMenu.openKitMenu(player).open(player));
 
         inventory.addClickHandler(event -> {
             int slot = event.getRawSlot();

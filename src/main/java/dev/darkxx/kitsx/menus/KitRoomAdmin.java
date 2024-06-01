@@ -35,7 +35,7 @@ public class KitRoomAdmin extends GuiBuilder {
                 .build();
         inventory.setItem(48, save, p -> {
             KitsX.getKitRoomUtil().save(player, category);
-            KitsMenu.openKitMenu(player, KitsX.getInstance()).open(player);
+            KitsMenu.openKitMenu(player).open(player);
         });
 
         ItemStack reset = new ItemBuilderGUI(Material.RED_DYE)
@@ -52,9 +52,7 @@ public class KitRoomAdmin extends GuiBuilder {
                 .name(ColorizeText.mm("<#ffa6a6>Back"))
                 .flags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS)
                 .build();
-        inventory.setItem(49, back, p -> {
-            KitsMenu.openKitMenu(player, KitsX.getInstance()).open(player);
-        });
+        inventory.setItem(49, back, p -> KitsMenu.openKitMenu(player).open(player));
 
         inventory.addClickHandler(event -> {
             int slot = event.getRawSlot();

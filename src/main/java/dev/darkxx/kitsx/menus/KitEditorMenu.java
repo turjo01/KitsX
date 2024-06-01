@@ -1,7 +1,7 @@
 package dev.darkxx.kitsx.menus;
 
 import dev.darkxx.kitsx.KitsX;
-import dev.darkxx.kitsx.menus.config.MenuConfig;
+import dev.darkxx.kitsx.utils.config.MenuConfig;
 import dev.darkxx.utils.menu.xmenu.GuiBuilder;
 import dev.darkxx.utils.menu.xmenu.ItemBuilderGUI;
 import dev.darkxx.utils.text.color.ColorizeText;
@@ -75,6 +75,7 @@ public class KitEditorMenu extends GuiBuilder {
         addItem(inventory, "back", Material.RED_STAINED_GLASS_PANE, inventory.getInventory().getSize() - 5, player, kitName);
     }
 
+    @SuppressWarnings("deprecation")
     private static void addItem(GuiBuilder inventory, String configName, Material defaultMaterial, int defaultSlot, Player player, String kitName) {
         String itemMaterial = CONFIG.getConfig().getString("kit-editor." + configName + ".material", defaultMaterial.name());
         String itemName = CONFIG.getConfig().getString("kit-editor." + configName + ".name", "");
@@ -93,6 +94,7 @@ public class KitEditorMenu extends GuiBuilder {
                 LOGGER.warning("Invalid item flag " + flag);
             }
         }
+
         List<Map<?, ?>> enchantmentList = CONFIG.getConfig().getMapList("kit-editor." + configName + ".enchantments");
         Map<Enchantment, Integer> enchantments = new HashMap<>();
         for (Map<?, ?> enchantmentMap : enchantmentList) {
@@ -120,7 +122,7 @@ public class KitEditorMenu extends GuiBuilder {
             switch (configName) {
                 case "save":
                     KitsX.getKitUtil().save(player, kitName);
-                    KitsMenu.openKitMenu(player, KitsX.getInstance()).open(player);
+                    KitsMenu.openKitMenu(player).open(player);
                     break;
                 case "reset":
                     for (int i = 0; i <= 40; i++) {
@@ -134,7 +136,7 @@ public class KitEditorMenu extends GuiBuilder {
                     KitsX.getPremadeKitUtil().load(player);
                     break;
                 case "back":
-                    KitsMenu.openKitMenu(player, KitsX.getInstance()).open(player);
+                    KitsMenu.openKitMenu(player).open(player);
                     break;
             }
         });

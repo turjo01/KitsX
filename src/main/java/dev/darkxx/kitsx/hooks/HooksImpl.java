@@ -9,7 +9,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class HooksImpl {
 
-    public void of(JavaPlugin plugin) {
+    public static void of(JavaPlugin plugin) {
         PluginManager pm = plugin.getServer().getPluginManager();
         ConsoleCommandSender log = Bukkit.getServer().getConsoleSender();
 
@@ -24,9 +24,5 @@ public class HooksImpl {
             SkriptHook.get().of();
             log.sendMessage(ColorizeText.hex("&c&lKitsX &7› &fHooked into &#ff2e2eSkript&f!"));
         }
-    }
-
-    public static HooksImpl get() {
-        return new HooksImpl();
     }
 }

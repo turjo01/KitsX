@@ -3,7 +3,7 @@ package dev.darkxx.kitsx.menus;
 import dev.darkxx.kitsx.KitsX;
 import dev.darkxx.utils.menu.xmenu.GuiBuilder;
 import dev.darkxx.utils.menu.xmenu.ItemBuilderGUI;
-import dev.darkxx.kitsx.menus.config.MenuConfig;
+import dev.darkxx.kitsx.utils.config.MenuConfig;
 import dev.darkxx.utils.text.color.ColorizeText;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -75,6 +75,7 @@ public class EnderChestEditor extends GuiBuilder {
         addItem(inventory, "back", Material.RED_STAINED_GLASS_PANE, player, kitName);
     }
 
+    @SuppressWarnings("deprecation")
     private static void addItem(GuiBuilder inventory, String configName, Material defaultMaterial, Player player, String kitName) {
         String itemMaterial = CONFIG.getConfig().getString("enderchest-editor." + configName + ".material", defaultMaterial.name());
         String itemName = CONFIG.getConfig().getString("enderchest-editor." + configName + ".name", "");
@@ -120,7 +121,7 @@ public class EnderChestEditor extends GuiBuilder {
             switch (configName) {
                 case "save":
                     KitsX.getEnderChestUtil().save(player, kitName);
-                    KitsMenu.openKitMenu(player, KitsX.getInstance()).open(player);
+                    KitsMenu.openKitMenu(player).open(player);
                     break;
                 case "reset":
                     for (int i = 0; i <= 26; i++) {
@@ -128,7 +129,7 @@ public class EnderChestEditor extends GuiBuilder {
                     }
                     break;
                 case "back":
-                    KitsMenu.openKitMenu(player, KitsX.getInstance()).open(player);
+                    KitsMenu.openKitMenu(player).open(player);
                     break;
             }
         });

@@ -35,7 +35,7 @@ public class KitCommand extends XyrisCommand<KitsX> {
                 }
             }
 
-            KitsMenu.openKitMenu(player, KitsX.getInstance()).open(player);
+            KitsMenu.openKitMenu(player).open(player);
             return true;
         }
         return false;

@@ -1,7 +1,7 @@
 package dev.darkxx.kitsx.menus;
 
 import dev.darkxx.kitsx.KitsX;
-import dev.darkxx.kitsx.menus.config.MenuConfig;
+import dev.darkxx.kitsx.utils.config.MenuConfig;
 import dev.darkxx.utils.menu.xmenu.GuiBuilder;
 import dev.darkxx.utils.menu.xmenu.ItemBuilderGUI;
 import dev.darkxx.utils.text.color.ColorizeText;
@@ -57,16 +57,15 @@ public class AutoRekitMenu extends GuiBuilder {
 
         setToggleAutoRekitLore(toggleAutoRekit, player);
 
-        inventory.setItem(slot, toggleAutoRekit, p -> {
-            Bukkit.getScheduler().runTaskAsynchronously(KitsX.getInstance(), () -> {
-                KitsX.getAutoRekitUtil().toggle(player);
-                setToggleAutoRekitLore(toggleAutoRekit, player);
-                player.getOpenInventory().setItem(slot, toggleAutoRekit);
-                player.playSound(player.getLocation(), Sound.UI_LOOM_TAKE_RESULT, 1.0f, 1.0f);
-            });
-        });
+        inventory.setItem(slot, toggleAutoRekit, p -> Bukkit.getScheduler().runTaskAsynchronously(KitsX.getInstance(), () -> {
+            KitsX.getAutoRekitUtil().toggle(player);
+            setToggleAutoRekitLore(toggleAutoRekit, player);
+            player.getOpenInventory().setItem(slot, toggleAutoRekit);
+            player.playSound(player.getLocation(), Sound.UI_LOOM_TAKE_RESULT, 1.0f, 1.0f);
+        }));
     }
 
+    @SuppressWarnings("deprecation")
     private static void setToggleAutoRekitLore(ItemStack toggleAutoRekit, Player player) {
         String configPath = "auto-rekit.toggle-auto-rekit";
 
@@ -81,17 +80,17 @@ public class AutoRekitMenu extends GuiBuilder {
     }
 
     private static void addKitItems(GuiBuilder inventory, Player player) {
-        addItemGroup(inventory, "auto-rekit.kits", Material.END_CRYSTAL, player);
+        addItemGroup(inventory, player);
     }
 
-    private static void addItemGroup(GuiBuilder inventory, String configPath, Material defaultMaterial, Player player) {
-        List<Integer> slots = CONFIG.getConfig().getIntegerList(configPath + ".slots");
+    private static void addItemGroup(GuiBuilder inventory, Player player) {
+        List<Integer> slots = CONFIG.getConfig().getIntegerList("auto-rekit.kits" + ".slots");
 
         for (int i = 0; i < slots.size(); i++) {
             int slot = slots.get(i);
             int kitNumber = i + 1;
 
-            ItemStack item = createItem(configPath, defaultMaterial, kitNumber);
+            ItemStack item = createItem("auto-rekit.kits", Material.END_CRYSTAL, kitNumber);
             inventory.setItem(slot, item, p -> {
                 String kitSelected = PLUGIN.getConfig().getString("messages.auto-rekit-kit-selected");
                 assert kitSelected != null;
@@ -105,6 +104,7 @@ public class AutoRekitMenu extends GuiBuilder {
         return createItem(configPath, defaultMaterial, 0);
     }
 
+    @SuppressWarnings("deprecation")
     private static ItemStack createItem(String configPath, Material defaultMaterial, int kitNumber) {
         String itemMaterial = CONFIG.getConfig().getString(configPath + ".material", defaultMaterial.name());
         String itemName = CONFIG.getConfig().getString(configPath + ".name", "").replace("%kit%", String.valueOf(kitNumber));

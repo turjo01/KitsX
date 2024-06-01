@@ -2,84 +2,71 @@ package dev.darkxx.kitsx.utils;
 
 import dev.darkxx.kitsx.KitsX;
 import dev.darkxx.kitsx.api.AutoRekitAPI;
-import dev.darkxx.kitsx.menus.config.MenuConfig;
+import dev.darkxx.kitsx.utils.config.MenuConfig;
+import dev.darkxx.kitsx.utils.config.ConfigManager;
 import dev.darkxx.utils.text.color.ColorizeText;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 public class AutoRekitUtil implements AutoRekitAPI {
 
-    private static final Logger logger = Logger.getLogger(AutoRekitUtil.class.getName());
-    private final FileConfiguration autoRekitData;
-    private final File autoRekitFile;
-    private static final MenuConfig CONFIG = new MenuConfig(KitsX.getInstance(), "menus/auto-rekit.yml");
+    private final MenuConfig CONFIG = new MenuConfig(KitsX.getInstance(), "menus/auto-rekit.yml");
+    private static ConfigManager configManager;
 
-
-    public AutoRekitUtil(File autoRekitFile, FileConfiguration autoRekitData) {
-        this.autoRekitFile = autoRekitFile;
-        this.autoRekitData = autoRekitData;
+    public AutoRekitUtil(ConfigManager configManager) {
+        AutoRekitUtil.configManager = configManager;
     }
 
-    public static AutoRekitUtil of(JavaPlugin plugin) {
-        File autoRekitFile = new File(plugin.getDataFolder(), "data/autorekit.yml");
-        if (!autoRekitFile.exists()) {
-            plugin.saveResource("data/autorekit.yml", false);
-        }
-        return new AutoRekitUtil(autoRekitFile, YamlConfiguration.loadConfiguration(autoRekitFile));
+    public static void of(JavaPlugin plugin) {
+        configManager = ConfigManager.get(plugin);
+        configManager.create("data/autorekit.yml");
     }
 
     @Override
     public void set(Player player, Boolean enabled, String kitName) {
         String playerName = player.getUniqueId().toString();
-        autoRekitData.set(playerName + ".auto-rekit.enabled", enabled);
-        autoRekitData.set(playerName + ".auto-rekit.kit", kitName);
+        configManager.set("data/autorekit.yml", playerName + ".auto-rekit.enabled", enabled);
+        configManager.set("data/autorekit.yml", playerName + ".auto-rekit.kit", kitName);
         save();
     }
 
     @Override
     public void setKit(Player player, String kitName) {
         String playerName = player.getUniqueId().toString();
-        autoRekitData.set(playerName + ".auto-rekit.kit", kitName);
+        configManager.set("data/autorekit.yml", playerName + ".auto-rekit.kit", kitName);
         save();
     }
 
     @Override
     public void toggle(Player player) {
         String playerName = player.getUniqueId().toString();
-        boolean currentSetting = autoRekitData.getBoolean(playerName + ".auto-rekit.enabled");
-        autoRekitData.set(playerName + ".auto-rekit.enabled", !currentSetting);
+        boolean currentSetting = configManager.getConfig("data/autorekit.yml").getBoolean(playerName + ".auto-rekit.enabled");
+        configManager.set("data/autorekit.yml", playerName + ".auto-rekit.enabled", !currentSetting);
         save();
     }
 
     @Override
     public boolean get(Player player) {
         String playerName = player.getUniqueId().toString();
-        return autoRekitData.getBoolean(playerName + ".auto-rekit.enabled", false);
+        return configManager.getConfig("data/autorekit.yml").getBoolean(playerName + ".auto-rekit.enabled", false);
     }
 
     @Override
     public String getKit(Player player) {
         String playerName = player.getUniqueId().toString();
-        return autoRekitData.getString(playerName + ".auto-rekit.kit", "Kit 1");
+        return configManager.getConfig("data/autorekit.yml").getString(playerName + ".auto-rekit.kit", "Kit 1");
     }
 
     @Override
     public boolean isEnabled(Player player) {
         String playerName = player.getUniqueId().toString();
-        return autoRekitData.getBoolean(playerName + ".auto-rekit.enabled", false);
+        return configManager.getConfig("data/autorekit.yml").getBoolean(playerName + ".auto-rekit.enabled", false);
     }
 
     @Override
     public boolean hasAutoRekit(Player player) {
         String playerName = player.getUniqueId().toString();
-        return autoRekitData.contains(playerName + ".auto-rekit");
+        return configManager.contains("data/autorekit.yml", playerName + ".auto-rekit");
     }
 
     @Override
@@ -91,10 +78,6 @@ public class AutoRekitUtil implements AutoRekitAPI {
     }
 
     private void save() {
-        try {
-            autoRekitData.save(autoRekitFile);
-        } catch (IOException e) {
-            logger.log(Level.SEVERE, "Failed to save auto-rekit file ); ", e);
-        }
+        configManager.saveConfig("data/autorekit.yml");
     }
 }

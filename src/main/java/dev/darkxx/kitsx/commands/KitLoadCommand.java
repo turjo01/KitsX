@@ -43,12 +43,10 @@ public class KitLoadCommand extends XyrisCommand<KitsX> {
             if (cmdName.equalsIgnoreCase("kit" + i)) {
                 if (player.hasPermission("kitsx." + cmdName)) {
                     KitsX.getKitUtil().load(player, "Kit " + i);
-
-                    return true;
                 } else {
                     player.sendMessage(ColorizeText.hex("&#ffa6a6You don't have permission to use Kit " + i + "."));
-                    return true;
                 }
+                return true;
             }
         }
         return false;

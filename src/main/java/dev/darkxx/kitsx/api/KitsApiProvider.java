@@ -1,11 +1,8 @@
 package dev.darkxx.kitsx.api;
 
 import dev.darkxx.kitsx.utils.*;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
+import dev.darkxx.kitsx.utils.config.ConfigManager;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.io.File;
 
 /**
  * A provider class for accessing various APIs related to KitsX.
@@ -29,28 +26,14 @@ public class KitsApiProvider {
      * @return An instance of KitsApiProvider.
      */
     public static KitsApiProvider init(JavaPlugin plugin) {
-        File kitsFolder = new File(plugin.getDataFolder(), "data");
-        kitsAPI = new KitUtil(new File(kitsFolder, "kits.yml"), loadConfig(plugin, "kits.yml"));
-        premadeKitAPI = new PremadeKitUtil(new File(kitsFolder, "premadekit.yml"), loadConfig(plugin, "premadekit.yml"));
-        kitRoomAPI = new KitRoomUtil(new File(kitsFolder, "kitroom.yml"), loadConfig(plugin, "kitroom.yml"));
-        enderChestAPI = new EnderChestUtil(new File(kitsFolder, "enderchest.yml"), loadConfig(plugin, "enderchest.yml"));
-        autoRekitAPI = new AutoRekitUtil(new File(kitsFolder, "autorekit.yml"), loadConfig(plugin, "autorekit.yml"));
-        return new KitsApiProvider();
-    }
+        ConfigManager configManager = ConfigManager.get(plugin);
 
-    /**
-     * Loads a YAML configuration file from the plugin's data folder.
-     *
-     * @param plugin   The JavaPlugin instance.
-     * @param fileName The name of the YAML file.
-     * @return The loaded FileConfiguration.
-     */
-    private static FileConfiguration loadConfig(JavaPlugin plugin, String fileName) {
-        File file = new File(plugin.getDataFolder() + File.separator + "data", fileName);
-        if (!file.exists()) {
-            plugin.saveResource("data" + File.separator + fileName, false);
-        }
-        return YamlConfiguration.loadConfiguration(file);
+        kitsAPI = new KitUtil(configManager);
+        premadeKitAPI = new PremadeKitUtil(configManager);
+        kitRoomAPI = new KitRoomUtil(configManager);
+        enderChestAPI = new EnderChestUtil(configManager);
+        autoRekitAPI = new AutoRekitUtil(configManager);
+        return new KitsApiProvider();
     }
 
     // Getters for each API
