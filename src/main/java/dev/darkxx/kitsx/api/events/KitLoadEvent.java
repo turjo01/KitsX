@@ -17,6 +17,10 @@ public class KitLoadEvent extends Event implements Cancellable {
         this.kitName = kitName;
     }
 
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
+
     public Player getPlayer() {
         return player;
     }
@@ -37,10 +41,6 @@ public class KitLoadEvent extends Event implements Cancellable {
 
     @Override
     public @NotNull HandlerList getHandlers() {
-        return handlers;
-    }
-
-    public static HandlerList getHandlerList() {
         return handlers;
     }
 }

@@ -13,16 +13,16 @@ public class KitRoomOpenEvent extends Event {
         this.player = player;
     }
 
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
+
     public Player getPlayer() {
         return player;
     }
 
     @Override
     public @NotNull HandlerList getHandlers() {
-        return handlers;
-    }
-
-    public static HandlerList getHandlerList() {
         return handlers;
     }
 }

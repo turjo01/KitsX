@@ -11,16 +11,16 @@ public interface KitsAPI {
     /**
      * Saves the contents of the player's open top inventory as a player kit.
      *
-     * @param player   The player whose inventory will be saved.
-     * @param kitName  The name of the kit.
+     * @param player  The player whose inventory will be saved.
+     * @param kitName The name of the kit.
      */
     void save(Player player, String kitName);
 
     /**
      * Loads a kit into a player's inventory.
      *
-     * @param player   The player who will receive the kit.
-     * @param kitName  The name of the kit to load.
+     * @param player  The player who will receive the kit.
+     * @param kitName The name of the kit to load.
      */
     void load(Player player, String kitName);
 
@@ -44,16 +44,16 @@ public interface KitsAPI {
     /**
      * Deletes a kit.
      *
-     * @param player   The player who owns the kit.
-     * @param kitName  The name of the kit to delete.
+     * @param player  The player who owns the kit.
+     * @param kitName The name of the kit to delete.
      */
     void delete(Player player, String kitName);
 
     /**
      * Checks if a kit exists for a player.
      *
-     * @param player   The player to check for the kit.
-     * @param kitName  The name of the kit.
+     * @param player  The player to check for the kit.
+     * @param kitName The name of the kit.
      * @return True if the kit exists for the player, otherwise false.
      */
     boolean exists(Player player, String kitName);

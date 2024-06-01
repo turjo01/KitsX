@@ -25,6 +25,10 @@ public class KitSaveEvent extends Event implements Cancellable {
         this.cancelled = false;
     }
 
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
+
     public Player getPlayer() {
         return player;
     }
@@ -57,10 +61,6 @@ public class KitSaveEvent extends Event implements Cancellable {
 
     @Override
     public @NotNull HandlerList getHandlers() {
-        return handlers;
-    }
-
-    public static HandlerList getHandlerList() {
         return handlers;
     }
 }

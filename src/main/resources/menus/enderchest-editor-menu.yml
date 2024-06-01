@@ -1,4 +1,4 @@
-# Menu Configuration for the Kit editor.
+# Menu Configuration for the Enderchest editor.
 
 # Inventory slots
 #
@@ -17,14 +17,14 @@
 
 
 # self-explanatory, no need for any external comments
-kit-editor:
-  size: 54
-  title: "Editing %kitName%"
+enderchest-editor:
+  size: 36
+  title: "Ender Chest | %kitname%"
 
   filter:
     material: BLACK_STAINED_GLASS_PANE
     name: " "
-    slots: [ 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53 ]
+    slots: [ 27, 28, 29, 30, 31, 32, 33, 34, 35 ]
     flags:
       - HIDE_ATTRIBUTES
       - HIDE_ENCHANTS
@@ -32,44 +32,29 @@ kit-editor:
   save:
     material: LIME_DYE
     name: "&aSave"
-    slot: 46
-    lore: []
+    slot: 30
+    lore: [ ]
     flags:
-    - HIDE_ATTRIBUTES
-    - HIDE_ENCHANTS
+      - HIDE_ATTRIBUTES
+      - HIDE_ENCHANTS
+    # enchantments:
+    #  - type: MENDING
+    #    level: 1
 
   reset:
     material: RED_DYE
     name: "&cReset"
-    slot: 48
-    lore: []
-    flags:
-      - HIDE_ATTRIBUTES
-      - HIDE_ENCHANTS
-
-  importInventory:
-    material: CHEST
-    name: "&aImport Inventory"
-    slot: 50
-    lore: []
-    flags:
-      - HIDE_ATTRIBUTES
-      - HIDE_ENCHANTS
-
-  premadeKit:
-    material: NETHERITE_CHESTPLATE
-    name: "&9Premade Kit"
-    slot: 52
-    lore: []
+    slot: 32
+    lore: [ ]
     flags:
       - HIDE_ATTRIBUTES
       - HIDE_ENCHANTS
 
   back:
     material: RED_STAINED_GLASS_PANE
-    name: "&#ffa6a6Back"
-    slot: 49
-    lore: []
+    name: "&cBack"
+    slot: 31
+    lore: [ ]
     flags:
       - HIDE_ATTRIBUTES
       - HIDE_ENCHANTS

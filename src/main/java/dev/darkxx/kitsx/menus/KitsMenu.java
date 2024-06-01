@@ -1,3 +1,24 @@
+/*
+ * This file is part of KitsX
+ *
+ * KitsX
+ * Copyright (c) 2024 XyrisPlugins
+ *
+ * KitsX is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * KitsX is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
 package dev.darkxx.kitsx.menus;
 
 import dev.darkxx.kitsx.KitsX;
@@ -21,7 +42,7 @@ import java.util.logging.Logger;
 public class KitsMenu extends GuiBuilder {
 
     private static final KitsX PLUGIN = KitsX.getInstance();
-    private static final MenuConfig CONFIG = new MenuConfig(PLUGIN, "menus/kits.yml");
+    private static final MenuConfig CONFIG = new MenuConfig(PLUGIN, "menus/kits-menu.yml");
     private static final Logger LOGGER = PLUGIN.getLogger();
 
     public KitsMenu(int size) {
@@ -182,7 +203,7 @@ public class KitsMenu extends GuiBuilder {
                     break;
                 case "kits-menu.premadekit":
                     if (p.isRightClick()) {
-                        PremadeKitMenu.createGui(player).open(player);
+                        PremadeKitMenu.createGui().open(player);
                     } else if (p.isLeftClick()) {
                         KitsX.getPremadeKitUtil().load(player);
                     }

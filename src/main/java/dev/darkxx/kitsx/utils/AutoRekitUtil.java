@@ -1,17 +1,38 @@
+/*
+ * This file is part of KitsX
+ *
+ * KitsX
+ * Copyright (c) 2024 XyrisPlugins
+ *
+ * KitsX is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * KitsX is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
 package dev.darkxx.kitsx.utils;
 
 import dev.darkxx.kitsx.KitsX;
 import dev.darkxx.kitsx.api.AutoRekitAPI;
-import dev.darkxx.kitsx.utils.config.MenuConfig;
 import dev.darkxx.kitsx.utils.config.ConfigManager;
+import dev.darkxx.kitsx.utils.config.MenuConfig;
 import dev.darkxx.utils.text.color.ColorizeText;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class AutoRekitUtil implements AutoRekitAPI {
 
-    private final MenuConfig CONFIG = new MenuConfig(KitsX.getInstance(), "menus/auto-rekit.yml");
     private static ConfigManager configManager;
+    private final MenuConfig CONFIG = new MenuConfig(KitsX.getInstance(), "menus/autorekit-menu.yml");
 
     public AutoRekitUtil(ConfigManager configManager) {
         AutoRekitUtil.configManager = configManager;

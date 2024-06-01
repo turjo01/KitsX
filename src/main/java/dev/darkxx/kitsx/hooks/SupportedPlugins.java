@@ -19,25 +19,36 @@
  *
  */
 
-package dev.darkxx.kitsx.utils.wg;
+package dev.darkxx.kitsx.hooks;
 
-import dev.darkxx.kitsx.KitsX;
-import dev.darkxx.utils.worldguard.WorldGuardUtil;
-import org.bukkit.entity.Player;
+import dev.darkxx.kitsx.hooks.skript.SkriptHook;
+import dev.darkxx.kitsx.hooks.worldguard.WorldGuardHook;
 
-import java.util.List;
+public enum SupportedPlugins {
 
-public class BlacklistedRegion {
-
-    public static boolean isInBlacklistedRegion(Player player) {
-        List<String> blacklistedRegions = KitsX.getInstance().getConfig().getStringList("blacklisted-regions");
-
-        for (String region : blacklistedRegions) {
-            if (WorldGuardUtil.isinRegion(player, region)) {
-                return true;
-            }
+    WORLD_GUARD("WorldGuard") {
+        @Override
+        public void hook() {
+            WorldGuardHook.get().of();
         }
+    },
 
-        return false;
+    SKRIPT("Skript") {
+        @Override
+        public void hook() {
+            SkriptHook.get().of();
+        }
+    };
+
+    private final String pluginName;
+
+    SupportedPlugins(String pluginName) {
+        this.pluginName = pluginName;
     }
+
+    public String getName() {
+        return pluginName;
+    }
+
+    public abstract void hook();
 }
