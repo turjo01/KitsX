@@ -1,7 +1,7 @@
 name: KitsX
-version: '1.0'
+version: '1.0.0'
 main: dev.darkxx.kitsx.KitsX
-api-version: '1.18'
+api-version: '1.19'
 authors:
   - Darkxx
   - XyrisPlugins

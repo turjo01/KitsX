@@ -15,17 +15,12 @@ public class KitsApiProvider {
     private static EnderChestAPI enderChestAPI;
     private static AutoRekitAPI autoRekitAPI;
 
-    private KitsApiProvider() {
-        // Private constructor to prevent instantiation
-    }
-
     /**
      * Initializes the Kits API provider.
      *
      * @param plugin The JavaPlugin instance.
-     * @return An instance of KitsApiProvider.
      */
-    public static KitsApiProvider init(JavaPlugin plugin) {
+    public static void init(JavaPlugin plugin) {
         ConfigManager configManager = ConfigManager.get(plugin);
 
         kitsAPI = new KitUtil(configManager);
@@ -33,6 +28,9 @@ public class KitsApiProvider {
         kitRoomAPI = new KitRoomUtil(configManager);
         enderChestAPI = new EnderChestUtil(configManager);
         autoRekitAPI = new AutoRekitUtil(configManager);
+    }
+
+    public static KitsApiProvider get() {
         return new KitsApiProvider();
     }
 

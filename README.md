@@ -19,57 +19,45 @@ on kitroom open:
 
 ## Developer API
 
-Integrate KitsX into your own projects with our straightforward API.
-
-### Maven Integration
-Add the repository and dependency to your `pom.xml`:
+### Maven
 
 ```xml
-<repositories>
-    <repository>
-        <id>xyris-plugins</id>
-        <url>https://xyris.fun/public/mvn/repo/</url>
-    </repository>
-</repositories>
+        <repository>
+            <id>xyris-repo</id>
+            <url>https://xyris.fun/repo/</url>
+        </repository>
 
-<dependencies>
-<dependency>
-    <groupId>dev.darkxx</groupId>
-    <artifactId>KitsX</artifactId>
-    <version>1.0</version>
-    <scope>provided</scope>
-</dependency>
-</dependencies>
+        <dependency>
+            <groupId>dev.darkxx</groupId>
+            <artifactId>KitsX</artifactId>
+            <version>1.0.0</version>
+            <scope>provided</scope>
+        </dependency>
 ```
 
-
-### Gradle Integration
-Add the repository and dependency to your `build.gradle`:
+### Gradle
 
 ```groovy
 repositories {
-    maven {
-        url 'https://xyris.fun/public/mvn/repo/'
-    }
+    maven("https://xyris.fun/repo/")
 }
 
 dependencies {
-    implementation 'dev.darkxx:KitsX:1.0'
+    compileOnly("dev.darkxx:KitsX:1.0.0")
 }
 ```
+---
 
-## API Examples
-
-First, declare a field for the KitsApiProvider:
+First, initialize the KitsApiProvider in the `onEnable`
 
 ```java
-    private KitsApiProvider kitsApiProvider;
+        KitsApiProvider.init(this);
 ```
 
-Next, initialize the KitsApiProvider:
+Next, get current instance of the KitsX api with the following:
 
 ```java
-        kitsApiProvider = KitsApiProvider.init(this);
+        KitsAPI kits = KitsApiProvider.get().getKitsAPI();
 ```
 
 Here are some usage examples:
@@ -80,8 +68,8 @@ Here are some usage examples:
         Player player = e.getPlayer();
         
         // Load the kit for the player
-        KitsAPI kitsAPI = kitsApiProvider.getKitsAPI();
-        kitsAPI.load(player, "Kit 1");
+        KitsAPI kits = KitsApiProvider.get().getKitsAPI();
+        kits.load(p, "Kit 1");
     }
 
     @EventHandler
