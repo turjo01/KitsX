@@ -2,7 +2,7 @@
  * This file is part of KitsX
  *
  * KitsX
- * Copyright (c) 2024 XyrisPlugins Team
+ * Copyright (c) 2024 XyrisPlugins
  *
  * KitsX is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

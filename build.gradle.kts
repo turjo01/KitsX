@@ -9,10 +9,12 @@ version = "1.0.0"
 description = "KitsX"
 java.sourceCompatibility = JavaVersion.VERSION_19
 
+/*
 java {
     withJavadocJar()
     withSourcesJar()
 }
+ */
 
 repositories {
     mavenCentral()
