@@ -44,7 +44,7 @@ public class MenuConfig {
         new MenuConfig(plugin, "menus/kiteditor-menu.yml");
         new MenuConfig(plugin, "menus/enderchest-editor-menu.yml");
         new MenuConfig(plugin, "menus/autorekit-menu.yml");
-        new MenuConfig(plugin, "menus/premade-kit-menu.yml");
+        new MenuConfig(plugin, "menus/premadekit-menu.yml");
     }
 
     public FileConfiguration getConfig() {
