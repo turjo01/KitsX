@@ -22,6 +22,7 @@
 package dev.darkxx.kitsx.menus;
 
 import dev.darkxx.kitsx.KitsX;
+import dev.darkxx.kitsx.utils.PremadeKitUtil;
 import dev.darkxx.kitsx.utils.config.MenuConfig;
 import dev.darkxx.utils.menu.xmenu.GuiBuilder;
 import dev.darkxx.utils.menu.xmenu.ItemBuilderGUI;
@@ -32,38 +33,45 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class PremadeKitMenu extends GuiBuilder {
 
     private static final KitsX PLUGIN = KitsX.getInstance();
-    private static final MenuConfig CONFIG = new MenuConfig(PLUGIN, "menus/premadekit-menu.yml");
+    private static final MenuConfig CONFIG = new MenuConfig(PLUGIN, "menus/premadekit_menu.yml");
 
     public PremadeKitMenu() {
-        super(CONFIG.getConfig().getInt("premade-kit.size"));
+        super(CONFIG.getConfig().getInt("premade_kit.size"));
     }
 
-    public static GuiBuilder createGui() {
-        GuiBuilder inventory = new GuiBuilder(CONFIG.getConfig().getInt("premade-kit.size"), ColorizeText.hex(Objects.requireNonNull(CONFIG.getConfig().getString("premade-kit.title"))));
+    public static GuiBuilder createGui(Player player) {
+        GuiBuilder inventory = new GuiBuilder(CONFIG.getConfig().getInt("premade_kit.size"), ColorizeText.hex(Objects.requireNonNull(CONFIG.getConfig().getString("premade_kit.title"))));
 
-        addItems(inventory, "premade-kit.filter");
-        addItems(inventory, "premade-kit.back");
+       KitsX.getInstance().getPremadeKitUtil().set(inventory);
+
+        addItems(inventory);
+        addItem(inventory, player);
 
         return inventory;
     }
 
-    private static void addItems(GuiBuilder inventory, String configPath) {
-        ConfigurationSection section = CONFIG.getConfig().getConfigurationSection(configPath);
+    private static void addItems(GuiBuilder inventory) {
+        ConfigurationSection section = CONFIG.getConfig().getConfigurationSection("premade_kit.filter");
         if (section != null) {
-            Material material = Material.matchMaterial(section.getString("material", "STONE"));
+            Material material = Material.matchMaterial(Objects.requireNonNull(section.getString("material")));
             String name = ColorizeText.hex(section.getString("name", ""));
             List<Integer> slots = section.getIntegerList("slots");
-            List<String> flags = section.getStringList("flags");
+            List<String> flagList = CONFIG.getConfig().getStringList("premade_kit.filter" + ".flags");
+            List<ItemFlag> flags = new ArrayList<>();
+            for (String flag : flagList) {
+                flags.add(ItemFlag.valueOf(flag));
+            }
 
             ItemStack item = new ItemBuilderGUI(material)
                     .name(name)
-                    .flags(getItemFlags(flags))
+                    .flags(flags.toArray(new ItemFlag[0]))
                     .build();
 
             for (int slot : slots) {
@@ -72,7 +80,23 @@ public class PremadeKitMenu extends GuiBuilder {
         }
     }
 
-    private static ItemFlag[] getItemFlags(List<String> flags) {
-        return flags.stream().map(ItemFlag::valueOf).toArray(ItemFlag[]::new);
+    private static void addItem(GuiBuilder inventory, Player player) {
+        ConfigurationSection section = CONFIG.getConfig().getConfigurationSection("premade_kit.back");
+        if (section != null) {
+            Material material = Material.matchMaterial(Objects.requireNonNull(section.getString("material")));
+            String name = ColorizeText.hex(section.getString("name", ""));
+            int slot = section.getInt("slot");
+            List<String> flagList = CONFIG.getConfig().getStringList("premade_kit.back" + ".flags");
+            List<ItemFlag> flags = new ArrayList<>();
+            for (String flag : flagList) {
+                flags.add(ItemFlag.valueOf(flag));
+            }
+            ItemStack item = new ItemBuilderGUI(material)
+                    .name(name)
+                    .flags(flags.toArray(new ItemFlag[0]))
+                    .build();
+
+            inventory.setItem(slot, item, p -> KitsMenu.openKitMenu(player).open(player));
+        }
     }
 }

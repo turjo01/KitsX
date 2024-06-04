@@ -35,10 +35,10 @@ public class AutoRekitListener implements Listener {
     public static void load(Player player) {
         String kit = KitsX.getAutoRekitUtil().getKit(player);
         KitsX.getKitUtil().load(player, kit);
-        if (!KitsX.getInstance().getConfig().getBoolean("messages.send-auto-rekit-message", true)) {
+        if (!KitsX.getInstance().getConfig().getBoolean("messages.send_auto_rekit_message", true)) {
             return;
         }
-        String msg = KitsX.getInstance().getConfig().getString("messages.auto-rekit-message");
+        String msg = KitsX.getInstance().getConfig().getString("messages.auto_rekit_message");
         if (msg != null) {
             player.sendMessage(ColorizeText.hex(msg));
         }

@@ -66,7 +66,7 @@ public class PremadeKitUtil implements PremadeKitAPI {
 
             configManager.saveConfig("data/premadekit.yml");
 
-            String saved = KitsX.getInstance().getConfig().getString("messages.premade-kit-saved");
+            String saved = KitsX.getInstance().getConfig().getString("messages.premade_kit_saved");
             if (saved != null) {
                 player.sendMessage(ColorizeText.hex(saved));
             }
@@ -115,21 +115,21 @@ public class PremadeKitUtil implements PremadeKitAPI {
                 player.getInventory().setItemInOffHand(offhandItem);
             }
 
-            if (KitsX.getInstance().getConfig().getBoolean("broadcast.premadekit-load", true)) {
-                String bcastLoaded = KitsX.getInstance().getConfig().getString("broadcast.premadekit-load-message");
+            if (KitsX.getInstance().getConfig().getBoolean("broadcast.premadekit_load", true)) {
+                String bcastLoaded = KitsX.getInstance().getConfig().getString("broadcast.premadekit_load_message");
                 if (bcastLoaded != null) {
                     bcastLoaded = bcastLoaded.replace("%player%", player.getName());
                     Bukkit.broadcastMessage(ColorizeText.hex(bcastLoaded));
                 }
             }
 
-            String loaded = KitsX.getInstance().getConfig().getString("messages.premade-kit-loaded");
+            String loaded = KitsX.getInstance().getConfig().getString("messages.premade_kit_loaded");
             if (loaded != null) {
                 player.sendMessage(ColorizeText.hex(loaded));
             }
 
         } else {
-            String empty = KitsX.getInstance().getConfig().getString("messages.premade-kit-empty");
+            String empty = KitsX.getInstance().getConfig().getString("messages.premade_kit_empty");
             if (empty != null) {
                 player.sendMessage(ColorizeText.hex(empty));
             }

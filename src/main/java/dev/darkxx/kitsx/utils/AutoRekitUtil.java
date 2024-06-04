@@ -32,7 +32,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class AutoRekitUtil implements AutoRekitAPI {
 
     private static ConfigManager configManager;
-    private final MenuConfig CONFIG = new MenuConfig(KitsX.getInstance(), "menus/autorekit-menu.yml");
+    private final MenuConfig CONFIG = new MenuConfig(KitsX.getInstance(), "menus/autorekit_menu.yml");
 
     public AutoRekitUtil(ConfigManager configManager) {
         AutoRekitUtil.configManager = configManager;
@@ -46,55 +46,55 @@ public class AutoRekitUtil implements AutoRekitAPI {
     @Override
     public void set(Player player, Boolean enabled, String kitName) {
         String playerName = player.getUniqueId().toString();
-        configManager.set("data/autorekit.yml", playerName + ".auto-rekit.enabled", enabled);
-        configManager.set("data/autorekit.yml", playerName + ".auto-rekit.kit", kitName);
+        configManager.set("data/autorekit.yml", playerName + ".auto_rekit.enabled", enabled);
+        configManager.set("data/autorekit.yml", playerName + ".auto_rekit.kit", kitName);
         save();
     }
 
     @Override
     public void setKit(Player player, String kitName) {
         String playerName = player.getUniqueId().toString();
-        configManager.set("data/autorekit.yml", playerName + ".auto-rekit.kit", kitName);
+        configManager.set("data/autorekit.yml", playerName + ".auto_rekit.kit", kitName);
         save();
     }
 
     @Override
     public void toggle(Player player) {
         String playerName = player.getUniqueId().toString();
-        boolean currentSetting = configManager.getConfig("data/autorekit.yml").getBoolean(playerName + ".auto-rekit.enabled");
-        configManager.set("data/autorekit.yml", playerName + ".auto-rekit.enabled", !currentSetting);
+        boolean currentSetting = configManager.getConfig("data/autorekit.yml").getBoolean(playerName + ".auto_rekit.enabled");
+        configManager.set("data/autorekit.yml", playerName + ".auto_rekit.enabled", !currentSetting);
         save();
     }
 
     @Override
     public boolean get(Player player) {
         String playerName = player.getUniqueId().toString();
-        return configManager.getConfig("data/autorekit.yml").getBoolean(playerName + ".auto-rekit.enabled", false);
+        return configManager.getConfig("data/autorekit.yml").getBoolean(playerName + ".auto_rekit.enabled", false);
     }
 
     @Override
     public String getKit(Player player) {
         String playerName = player.getUniqueId().toString();
-        return configManager.getConfig("data/autorekit.yml").getString(playerName + ".auto-rekit.kit", "Kit 1");
+        return configManager.getConfig("data/autorekit.yml").getString(playerName + ".auto_rekit.kit", "Kit 1");
     }
 
     @Override
     public boolean isEnabled(Player player) {
         String playerName = player.getUniqueId().toString();
-        return configManager.getConfig("data/autorekit.yml").getBoolean(playerName + ".auto-rekit.enabled", false);
+        return configManager.getConfig("data/autorekit.yml").getBoolean(playerName + ".auto_rekit.enabled", false);
     }
 
     @Override
     public boolean hasAutoRekit(Player player) {
         String playerName = player.getUniqueId().toString();
-        return configManager.contains("data/autorekit.yml", playerName + ".auto-rekit");
+        return configManager.contains("data/autorekit.yml", playerName + ".auto_rekit");
     }
 
     @Override
     public String status(Player player) {
         boolean autoRekitEnabled = get(player);
-        String enabled = CONFIG.getConfig().getString("auto-rekit.placeholders.enabled", "&#7cff6eEnabled");
-        String disabled = CONFIG.getConfig().getString("auto-rekit.placeholders.disabled", "&#ffa6a6Disabled");
+        String enabled = CONFIG.getConfig().getString("auto_rekit.placeholders.enabled", "&#7cff6eEnabled");
+        String disabled = CONFIG.getConfig().getString("auto_rekit.placeholders.disabled", "&#ffa6a6Disabled");
         return autoRekitEnabled ? ColorizeText.hex(enabled) : ColorizeText.hex(disabled);
     }
 

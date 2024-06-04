@@ -41,7 +41,7 @@ import java.util.logging.Logger;
 
 public class EnderChestEditor extends GuiBuilder {
     private static final KitsX PLUGIN = KitsX.getInstance();
-    private static final MenuConfig CONFIG = new MenuConfig(PLUGIN, "menus/enderchest-editor-menu.yml");
+    private static final MenuConfig CONFIG = new MenuConfig(PLUGIN, "menus/enderchest_editor_menu.yml");
     private static final Logger LOGGER = PLUGIN.getLogger();
 
     public EnderChestEditor(int size) {
@@ -49,8 +49,8 @@ public class EnderChestEditor extends GuiBuilder {
     }
 
     public static void openEnderChestEditor(Player player, String kitName) {
-        int inventorySize = CONFIG.getConfig().getInt("enderchest-editor.size", 36);
-        String titleTemplate = CONFIG.getConfig().getString("enderchest-editor.title", "Ender Chest | %kitname%");
+        int inventorySize = CONFIG.getConfig().getInt("enderchest_editor.size", 36);
+        String titleTemplate = CONFIG.getConfig().getString("enderchest_editor.title", "Ender Chest | %kitname%");
         String inventoryTitle = ColorizeText.hex(titleTemplate.replace("%kitname%", kitName));
 
         GuiBuilder inventory = new GuiBuilder(inventorySize, inventoryTitle);
@@ -71,14 +71,14 @@ public class EnderChestEditor extends GuiBuilder {
     }
 
     private static void addFilterItems(GuiBuilder inventory) {
-        String filterMaterial = CONFIG.getConfig().getString("enderchest-editor.filter.material", "BLACK_STAINED_GLASS_PANE");
-        String filterName = CONFIG.getConfig().getString("enderchest-editor.filter.name", " ");
-        List<String> filterFlagsList = CONFIG.getConfig().getStringList("enderchest-editor.filter.flags");
+        String filterMaterial = CONFIG.getConfig().getString("enderchest_editor.filter.material", "BLACK_STAINED_GLASS_PANE");
+        String filterName = CONFIG.getConfig().getString("enderchest_editor.filter.name", " ");
+        List<String> filterFlagsList = CONFIG.getConfig().getStringList("enderchest_editor.filter.flags");
         List<ItemFlag> filterFlags = new ArrayList<>();
         for (String flag : filterFlagsList) {
             filterFlags.add(ItemFlag.valueOf(flag));
         }
-        List<Integer> filterSlots = CONFIG.getConfig().getIntegerList("enderchest-editor.filter.slots");
+        List<Integer> filterSlots = CONFIG.getConfig().getIntegerList("enderchest_editor.filter.slots");
 
         ItemStack filter = new ItemBuilderGUI(Material.valueOf(filterMaterial))
                 .name(filterName)
@@ -98,15 +98,15 @@ public class EnderChestEditor extends GuiBuilder {
 
     @SuppressWarnings("deprecation")
     private static void addItem(GuiBuilder inventory, String configName, Material defaultMaterial, Player player, String kitName) {
-        String itemMaterial = CONFIG.getConfig().getString("enderchest-editor." + configName + ".material", defaultMaterial.name());
-        String itemName = CONFIG.getConfig().getString("enderchest-editor." + configName + ".name", "");
-        int itemSlot = CONFIG.getConfig().getInt("enderchest-editor." + configName + ".slot");
-        List<String> loreList = CONFIG.getConfig().getStringList("enderchest-editor." + configName + ".lore");
+        String itemMaterial = CONFIG.getConfig().getString("enderchest_editor." + configName + ".material", defaultMaterial.name());
+        String itemName = CONFIG.getConfig().getString("enderchest_editor." + configName + ".name", "");
+        int itemSlot = CONFIG.getConfig().getInt("enderchest_editor." + configName + ".slot");
+        List<String> loreList = CONFIG.getConfig().getStringList("enderchest_editor." + configName + ".lore");
         List<String> finalLore = new ArrayList<>();
         for (String lore : loreList) {
             finalLore.add(ColorizeText.hex(lore));
         }
-        List<String> flagList = CONFIG.getConfig().getStringList("enderchest-editor." + configName + ".flags");
+        List<String> flagList = CONFIG.getConfig().getStringList("enderchest_editor." + configName + ".flags");
         List<ItemFlag> flags = new ArrayList<>();
         for (String flag : flagList) {
             try {
@@ -115,7 +115,7 @@ public class EnderChestEditor extends GuiBuilder {
                 LOGGER.warning("Invalid item flag " + flag);
             }
         }
-        List<Map<?, ?>> enchantmentList = CONFIG.getConfig().getMapList("enderchest-editor." + configName + ".enchantments");
+        List<Map<?, ?>> enchantmentList = CONFIG.getConfig().getMapList("enderchest_editor." + configName + ".enchantments");
         Map<Enchantment, Integer> enchantments = new HashMap<>();
         for (Map<?, ?> enchantmentMap : enchantmentList) {
             String type = (String) enchantmentMap.get("type");

@@ -5,26 +5,26 @@
 kits: 7
 
 broadcast:
-  kit-load: true
-  kit-load-message: "&#7cff6e%player% loaded %kit%."
-  kitroom-open: true
-  kitroom-open-message: "&#7cff6e%player% opened the Virtual Kit Room."
-  premadekit-load: true
-  premadekit-load-message: "&#7cff6e%player% loaded the premade kit."
+  kit_load: true
+  kit_load_message: "&#7cff6e%player% loaded %kit%."
+  kitroom_open: true
+  kitroom_open_message: "&#7cff6e%player% opened the Virtual Kit Room."
+  premadekit_load: true
+  premadekit_load_message: "&#7cff6e%player% loaded the premade kit."
 
 messages:
-  no-permission: "&#ffa6a6You do not have permission to use this command."
-  blacklisted-region: "&#ffa6a6You cannot use this command here."
-  kit-saved: "&#7cff6e%kit% saved successfully!"
-  kit-loaded: "&#7cff6e%kit% loaded successfully!"
-  enderchest-saved: "&#7cff6eEnder chest for %kit% saved successfully!"
-  premade-kit-saved: "&#7cff6ePremade kit saved successfully!"
-  premade-kit-loaded: "&#7cff6ePremade kit loaded successfully!"
-  premade-kit-empty: "&#ffa6a6The premade kit is empty."
-  auto-rekit-kit-selected: "&#7cff6eAuto Rekit kit set to %kit%."
-  send-auto-rekit-message: true
-  auto-rekit-message: "&#7cff6eAutomatically rekitted for you. Use /autorekit to toggle or edit the kit."
+  no_permission: "&#ffa6a6You do not have permission to use this command."
+  blacklisted_region: "&#ffa6a6You cannot use this command here."
+  kit_saved: "&#7cff6e%kit% saved successfully!"
+  kit_loaded: "&#7cff6e%kit% loaded successfully!"
+  enderchest_saved: "&#7cff6eEnder chest for %kit% saved successfully!"
+  premade_kit_saved: "&#7cff6ePremade kit saved successfully!"
+  premade_kit_loaded: "&#7cff6ePremade kit loaded successfully!"
+  premade_kit_empty: "&#ffa6a6The premade kit is empty."
+  auto_rekit_kit_selected: "&#7cff6eAuto Rekit kit set to %kit%."
+  send_auto_rekit_message: true
+  auto_rekit_message: "&#7cff6eAutomatically rekitted for you. Use /autorekit to toggle or edit the kit."
 
-blacklisted-regions:
+blacklisted_regions:
   - "arena1"
   - "arena2"

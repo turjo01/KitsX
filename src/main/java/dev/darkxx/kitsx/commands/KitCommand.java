@@ -49,7 +49,7 @@ public class KitCommand extends XyrisCommand<KitsX> {
 
             if (WorldGuardHook.get().isEnabled()) {
                 if (BlacklistedRegion.isInBlacklistedRegion(player)) {
-                    String cannotUseHere = Objects.requireNonNull(KitsX.getInstance().getConfig().getString("messages.blacklisted-region"));
+                    String cannotUseHere = Objects.requireNonNull(KitsX.getInstance().getConfig().getString("messages.blacklisted_region"));
                     player.sendMessage(ColorizeText.hex(cannotUseHere));
                     return true;
                 }

@@ -46,8 +46,8 @@ public class KitRoomMenu extends GuiBuilder {
         GuiBuilder inventory = new GuiBuilder(54, "Virtual Kit Room");
 
         inventory.addOpenHandler(event -> {
-            if (KitsX.getInstance().getConfig().getBoolean("broadcast.kitroom-open", true)) {
-                String bcastLoaded = KitsX.getInstance().getConfig().getString("broadcast.kitroom-open-message");
+            if (KitsX.getInstance().getConfig().getBoolean("broadcast.kitroom_open", true)) {
+                String bcastLoaded = KitsX.getInstance().getConfig().getString("broadcast.kitroom_open_message");
                 assert bcastLoaded != null;
                 bcastLoaded = bcastLoaded.replace("%player%", player.getName());
                 Bukkit.broadcastMessage(ColorizeText.hex(bcastLoaded));

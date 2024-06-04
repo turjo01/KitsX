@@ -17,7 +17,7 @@
 
 
 # self-explanatory, no need for any external comments
-auto-rekit:
+auto_rekit:
   title: "Auto Rekit"
   size: 45
 
@@ -34,7 +34,7 @@ auto-rekit:
       - HIDE_ATTRIBUTES
       - HIDE_ENCHANTS
 
-  toggle-auto-rekit:
+  toggle_auto_rekit:
     material: NETHERITE_SWORD
     name: "&#ff2e2eAuto Rekit"
     slot: 13

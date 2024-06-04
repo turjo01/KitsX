@@ -38,7 +38,7 @@ import java.util.List;
 public class KitViewMenu extends GuiBuilder {
 
     private static final KitsX PLUGIN = KitsX.getInstance();
-    private static final MenuConfig CONFIG = new MenuConfig(PLUGIN, "menus/kits-menu.yml");
+    private static final MenuConfig CONFIG = new MenuConfig(PLUGIN, "menus/kits_menu.yml");
 
     public KitViewMenu() {
         super(36);
@@ -46,8 +46,8 @@ public class KitViewMenu extends GuiBuilder {
 
     public static void openKitSelectMenu(Player executor, String targetPlayerName) {
         GuiBuilder inventory = new GuiBuilder(36, targetPlayerName + " - " + "Kits");
-        List<Integer> slots = CONFIG.getConfig().getIntegerList("kits-menu.kits.slots");
-        List<Integer> slots1 = CONFIG.getConfig().getIntegerList("kits-menu.enderchests.slots");
+        List<Integer> slots = CONFIG.getConfig().getIntegerList("kits_menu.kits.slots");
+        List<Integer> slots1 = CONFIG.getConfig().getIntegerList("kits_menu.enderchests.slots");
 
 
         for (int s = 0; s < inventory.getInventory().getSize(); s++) {

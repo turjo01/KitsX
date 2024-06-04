@@ -84,7 +84,7 @@ public class KitUtil implements KitsAPI {
 
         try {
             configManager.saveConfig("data/kits.yml");
-            String kitSaved = Objects.requireNonNull(KitsX.getInstance().getConfig().getString("messages.kit-saved")).replace("%kit%", kitName);
+            String kitSaved = Objects.requireNonNull(KitsX.getInstance().getConfig().getString("messages.kit_saved")).replace("%kit%", kitName);
             player.sendMessage(ColorizeText.hex(kitSaved));
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Failed to save kit: " + kitName, e);
@@ -113,15 +113,15 @@ public class KitUtil implements KitsAPI {
                 ItemStack offhandItem = configManager.getConfig("data/kits.yml").getItemStack(playerName + "." + kitName + ".offhand");
                 player.getInventory().setItemInOffHand(offhandItem);
 
-                if (KitsX.getInstance().getConfig().getBoolean("broadcast.kit-load", true)) {
-                    String bcastLoaded = KitsX.getInstance().getConfig().getString("broadcast.kit-load-message");
+                if (KitsX.getInstance().getConfig().getBoolean("broadcast.kit_load", true)) {
+                    String bcastLoaded = KitsX.getInstance().getConfig().getString("broadcast.kit_load_message");
                     if (bcastLoaded != null) {
                         bcastLoaded = bcastLoaded.replace("%player%", player.getName()).replace("%kit%", kitName);
                         Bukkit.broadcastMessage(ColorizeText.hex(bcastLoaded));
                     }
                 }
 
-                String kitLoaded = KitsX.getInstance().getConfig().getString("messages.kit-loaded");
+                String kitLoaded = KitsX.getInstance().getConfig().getString("messages.kit_loaded");
                 if (kitLoaded != null) {
                     kitLoaded = kitLoaded.replace("%kit%", kitName);
                     player.sendMessage(ColorizeText.hex(kitLoaded));

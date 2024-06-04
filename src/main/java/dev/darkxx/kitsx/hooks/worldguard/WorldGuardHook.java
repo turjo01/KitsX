@@ -36,7 +36,7 @@ public class WorldGuardHook {
         Plugin worldGuardPlugin = Bukkit.getPluginManager().getPlugin("WorldGuard");
         if (worldGuardPlugin != null) {
             FileConfiguration config = KitsX.getInstance().getConfig();
-            config.addDefault("blacklisted-regions", new String[]{"swordffa", "netheritepotion"});
+            config.addDefault("blacklisted_regions", new String[]{"swordffa", "netheritepotion"});
             config.options().copyDefaults(true);
             KitsX.getInstance().saveConfig();
         }

@@ -40,11 +40,11 @@ public class MenuConfig {
     }
 
     public static void of(Plugin plugin) {
-        new MenuConfig(plugin, "menus/kits-menu.yml");
-        new MenuConfig(plugin, "menus/kiteditor-menu.yml");
-        new MenuConfig(plugin, "menus/enderchest-editor-menu.yml");
-        new MenuConfig(plugin, "menus/autorekit-menu.yml");
-        new MenuConfig(plugin, "menus/premadekit-menu.yml");
+        new MenuConfig(plugin, "menus/kits_menu.yml");
+        new MenuConfig(plugin, "menus/kiteditor_menu.yml");
+        new MenuConfig(plugin, "menus/enderchest_editor_menu.yml");
+        new MenuConfig(plugin, "menus/autorekit_menu.yml");
+        new MenuConfig(plugin, "menus/premadekit_menu.yml");
     }
 
     public FileConfiguration getConfig() {

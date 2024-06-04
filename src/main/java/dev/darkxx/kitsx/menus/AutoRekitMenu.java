@@ -45,16 +45,16 @@ import java.util.logging.Logger;
 public class AutoRekitMenu extends GuiBuilder {
 
     private static final KitsX PLUGIN = KitsX.getInstance();
-    private static final MenuConfig CONFIG = new MenuConfig(PLUGIN, "menus/autorekit-menu.yml");
+    private static final MenuConfig CONFIG = new MenuConfig(PLUGIN, "menus/autorekit_menu.yml");
     private static final Logger LOGGER = PLUGIN.getLogger();
 
 
     public AutoRekitMenu() {
-        super(CONFIG.getConfig().getInt("auto-rekit.size"));
+        super(CONFIG.getConfig().getInt("auto_rekit.size"));
     }
 
     public static GuiBuilder openAutoRekitMenu(Player player) {
-        GuiBuilder inventory = new GuiBuilder(CONFIG.getConfig().getInt("auto-rekit.size", 27), CONFIG.getConfig().getString("auto-rekit.title", "Auto Rekit"));
+        GuiBuilder inventory = new GuiBuilder(CONFIG.getConfig().getInt("auto_rekit.size", 27), CONFIG.getConfig().getString("auto_rekit.title", "Auto Rekit"));
 
         addFilterItems(inventory);
         addToggleAutoRekitItem(inventory, player);
@@ -64,16 +64,16 @@ public class AutoRekitMenu extends GuiBuilder {
     }
 
     private static void addFilterItems(GuiBuilder inventory) {
-        List<Integer> filterSlots = CONFIG.getConfig().getIntegerList("auto-rekit.filter.slots");
+        List<Integer> filterSlots = CONFIG.getConfig().getIntegerList("auto_rekit.filter.slots");
 
-        ItemStack filter = createItem("auto-rekit.filter", Material.BLACK_STAINED_GLASS_PANE);
+        ItemStack filter = createItem("auto_rekit.filter", Material.BLACK_STAINED_GLASS_PANE);
         for (int slot : filterSlots) {
             inventory.setItem(slot, filter);
         }
     }
 
     private static void addToggleAutoRekitItem(GuiBuilder inventory, Player player) {
-        String configPath = "auto-rekit.toggle-auto-rekit";
+        String configPath = "auto_rekit.toggle_auto_rekit";
         Material defaultMaterial = Material.NETHERITE_SWORD;
 
         int slot = CONFIG.getConfig().getInt(configPath + ".slot");
@@ -91,7 +91,7 @@ public class AutoRekitMenu extends GuiBuilder {
 
     @SuppressWarnings("deprecation")
     private static void setToggleAutoRekitLore(ItemStack toggleAutoRekit, Player player) {
-        String configPath = "auto-rekit.toggle-auto-rekit";
+        String configPath = "auto_rekit.toggle_auto_rekit";
 
         List<String> lore = new ArrayList<>();
         for (String line : CONFIG.getConfig().getStringList(configPath + ".lore")) {
@@ -108,15 +108,15 @@ public class AutoRekitMenu extends GuiBuilder {
     }
 
     private static void addItemGroup(GuiBuilder inventory, Player player) {
-        List<Integer> slots = CONFIG.getConfig().getIntegerList("auto-rekit.kits" + ".slots");
+        List<Integer> slots = CONFIG.getConfig().getIntegerList("auto_rekit.kits" + ".slots");
 
         for (int i = 0; i < slots.size(); i++) {
             int slot = slots.get(i);
             int kitNumber = i + 1;
 
-            ItemStack item = createItem("auto-rekit.kits", Material.END_CRYSTAL, kitNumber);
+            ItemStack item = createItem("auto_rekit.kits", Material.END_CRYSTAL, kitNumber);
             inventory.setItem(slot, item, p -> {
-                String kitSelected = PLUGIN.getConfig().getString("messages.auto-rekit-kit-selected");
+                String kitSelected = PLUGIN.getConfig().getString("messages.auto_rekit_kit_selected");
                 assert kitSelected != null;
                 player.sendMessage(ColorizeText.hex(kitSelected).replace("%kit%", String.valueOf(kitNumber)));
                 KitsX.getAutoRekitUtil().setKit(player, "Kit " + kitNumber);

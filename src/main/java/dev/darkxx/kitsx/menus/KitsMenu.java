@@ -42,7 +42,7 @@ import java.util.logging.Logger;
 public class KitsMenu extends GuiBuilder {
 
     private static final KitsX PLUGIN = KitsX.getInstance();
-    private static final MenuConfig CONFIG = new MenuConfig(PLUGIN, "menus/kits-menu.yml");
+    private static final MenuConfig CONFIG = new MenuConfig(PLUGIN, "menus/kits_menu.yml");
     private static final Logger LOGGER = PLUGIN.getLogger();
 
     public KitsMenu(int size) {
@@ -50,13 +50,13 @@ public class KitsMenu extends GuiBuilder {
     }
 
     public static GuiBuilder openKitMenu(Player player) {
-        int inventorySize = CONFIG.getConfig().getInt("kits-menu.size", 54);
-        String kitsTitle = CONFIG.getConfig().getString("kits-menu.title", "Kits");
+        int inventorySize = CONFIG.getConfig().getInt("kits_menu.size", 54);
+        String kitsTitle = CONFIG.getConfig().getString("kits_menu.title", "Kits");
         String inventoryTitle = ColorizeText.hex(kitsTitle);
 
         GuiBuilder inventory = new GuiBuilder(inventorySize, inventoryTitle);
 
-        if (CONFIG.getConfig().getBoolean("kits-menu.filter.enabled", true)) {
+        if (CONFIG.getConfig().getBoolean("kits_menu.filter.enabled", true)) {
             addFilterItems(inventory);
         }
 
@@ -70,14 +70,14 @@ public class KitsMenu extends GuiBuilder {
     }
 
     private static void addFilterItems(GuiBuilder inventory) {
-        String filterMaterial = CONFIG.getConfig().getString("kits-menu.filter.material", "BLACK_STAINED_GLASS_PANE");
-        String filterName = CONFIG.getConfig().getString("kits-menu.filter.name", " ");
-        List<String> filterFlagsList = CONFIG.getConfig().getStringList("kits-menu.filter.flags");
+        String filterMaterial = CONFIG.getConfig().getString("kits_menu.filter.material", "BLACK_STAINED_GLASS_PANE");
+        String filterName = CONFIG.getConfig().getString("kits_menu.filter.name", " ");
+        List<String> filterFlagsList = CONFIG.getConfig().getStringList("kits_menu.filter.flags");
         List<ItemFlag> filterFlags = new ArrayList<>();
         for (String flag : filterFlagsList) {
             filterFlags.add(ItemFlag.valueOf(flag));
         }
-        List<Integer> filterSlots = CONFIG.getConfig().getIntegerList("kits-menu.filter.slots");
+        List<Integer> filterSlots = CONFIG.getConfig().getIntegerList("kits_menu.filter.slots");
 
         ItemStack filter = new ItemBuilderGUI(Material.valueOf(filterMaterial))
                 .name(filterName)
@@ -90,11 +90,11 @@ public class KitsMenu extends GuiBuilder {
     }
 
     public static void addKitItems(GuiBuilder inventory, Player player) {
-        addItemGroup(inventory, "kits-menu.kits", Material.END_CRYSTAL, player);
+        addItemGroup(inventory, "kits_menu.kits", Material.END_CRYSTAL, player);
     }
 
     private static void addEnderChestItems(GuiBuilder inventory, Player player) {
-        addItemGroup(inventory, "kits-menu.enderchests", Material.ENDER_CHEST, player);
+        addItemGroup(inventory, "kits_menu.enderchests", Material.ENDER_CHEST, player);
     }
 
     public static void addItemGroup(GuiBuilder inventory, String configPath, Material defaultMaterial, Player player) {
@@ -125,7 +125,7 @@ public class KitsMenu extends GuiBuilder {
 
             inventory.setItem(slot, item, e -> {
                 if (e.isRightClick()) {
-                    if (configPath.equals("kits-menu.kits")) {
+                    if (configPath.equals("kits_menu.kits")) {
                         KitEditorMenu.openKitEditor(player, "Kit " + kitNumber);
                     } else {
                         EnderChestEditor.openEnderChestEditor(player, "Kit " + kitNumber);
@@ -138,15 +138,15 @@ public class KitsMenu extends GuiBuilder {
     }
 
     private static void addKitRoomItem(GuiBuilder inventory, Player player) {
-        addItem(inventory, "kits-menu.kitroom", Material.CREEPER_BANNER_PATTERN, player);
+        addItem(inventory, "kits_menu.kitroom", Material.CREEPER_BANNER_PATTERN, player);
     }
 
     private static void addClearInventoryItem(GuiBuilder inventory, Player player) {
-        addItem(inventory, "kits-menu.clearinv", Material.RED_DYE, player);
+        addItem(inventory, "kits_menu.clearinv", Material.RED_DYE, player);
     }
 
     private static void addPremadeKitItem(GuiBuilder inventory, Player player) {
-        addItem(inventory, "kits-menu.premadekit", Material.NETHERITE_CHESTPLATE, player);
+        addItem(inventory, "kits_menu.premadekit", Material.NETHERITE_CHESTPLATE, player);
     }
 
     @SuppressWarnings("deprecation")
@@ -185,7 +185,7 @@ public class KitsMenu extends GuiBuilder {
         ItemStack item = new ItemBuilderGUI(Material.valueOf(itemMaterial))
                 .name(ColorizeText.hex(itemName))
                 .flags(flags.toArray(new ItemFlag[0]))
-                .flags(ItemFlag.HIDE_ITEM_SPECIFICS)
+                .flags(ItemFlag.HIDE_ITEM_SPECIFICS, ItemFlag.HIDE_ATTRIBUTES)
                 .lore(finalLore.toArray(new String[0]))
                 .build();
 
@@ -195,15 +195,15 @@ public class KitsMenu extends GuiBuilder {
 
         inventory.setItem(itemSlot, item, p -> {
             switch (configName) {
-                case "kits-menu.kitroom":
+                case "kits_menu.kitroom":
                     KitRoomMenu.openKitRoom(player).open(player);
                     break;
-                case "kits-menu.clearinv":
+                case "kits_menu.clearinv":
                     player.getInventory().clear();
                     break;
-                case "kits-menu.premadekit":
+                case "kits_menu.premadekit":
                     if (p.isRightClick()) {
-                        PremadeKitMenu.createGui().open(player);
+                        PremadeKitMenu.createGui(player).open(player);
                     } else if (p.isLeftClick()) {
                         KitsX.getPremadeKitUtil().load(player);
                     }

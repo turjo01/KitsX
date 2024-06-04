@@ -30,7 +30,7 @@ import java.util.List;
 public class BlacklistedRegion {
 
     public static boolean isInBlacklistedRegion(Player player) {
-        List<String> blacklistedRegions = KitsX.getInstance().getConfig().getStringList("blacklisted-regions");
+        List<String> blacklistedRegions = KitsX.getInstance().getConfig().getStringList("blacklisted_regions");
 
         for (String region : blacklistedRegions) {
             if (WorldGuardUtil.isinRegion(player, region)) {

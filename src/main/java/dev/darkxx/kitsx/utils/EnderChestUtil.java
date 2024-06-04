@@ -65,7 +65,7 @@ public class EnderChestUtil implements EnderChestAPI {
 
         try {
             configManager.saveConfig("data/enderchest.yml");
-            String enderchestSaved = Objects.requireNonNull(KitsX.getInstance().getConfig().getString("messages.enderchest-saved")).replace("%kit%", kitName);
+            String enderchestSaved = Objects.requireNonNull(KitsX.getInstance().getConfig().getString("messages.enderchest_saved")).replace("%kit%", kitName);
             player.sendMessage(ColorizeText.hex(enderchestSaved));
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Failed to save ender chest", e);

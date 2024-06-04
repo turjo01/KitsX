@@ -42,7 +42,7 @@ import java.util.logging.Logger;
 public class KitEditorMenu extends GuiBuilder {
 
     private static final KitsX PLUGIN = KitsX.getInstance();
-    private static final MenuConfig CONFIG = new MenuConfig(PLUGIN, "menus/kiteditor-menu.yml");
+    private static final MenuConfig CONFIG = new MenuConfig(PLUGIN, "menus/kiteditor_menu.yml");
     private static final Logger LOGGER = PLUGIN.getLogger();
 
 
@@ -98,15 +98,15 @@ public class KitEditorMenu extends GuiBuilder {
 
     @SuppressWarnings("deprecation")
     private static void addItem(GuiBuilder inventory, String configName, Material defaultMaterial, int defaultSlot, Player player, String kitName) {
-        String itemMaterial = CONFIG.getConfig().getString("kit-editor." + configName + ".material", defaultMaterial.name());
-        String itemName = CONFIG.getConfig().getString("kit-editor." + configName + ".name", "");
-        int itemSlot = CONFIG.getConfig().getInt("kit-editor." + configName + ".slot", defaultSlot);
-        List<String> loreList = CONFIG.getConfig().getStringList("kit-editor." + configName + ".lore");
+        String itemMaterial = CONFIG.getConfig().getString("kit_editor." + configName + ".material", defaultMaterial.name());
+        String itemName = CONFIG.getConfig().getString("kit_editor." + configName + ".name", "");
+        int itemSlot = CONFIG.getConfig().getInt("kit_editor." + configName + ".slot", defaultSlot);
+        List<String> loreList = CONFIG.getConfig().getStringList("kit_editor." + configName + ".lore");
         List<String> finalLore = new ArrayList<>();
         for (String lore : loreList) {
             finalLore.add(ColorizeText.hex(lore));
         }
-        List<String> flagList = CONFIG.getConfig().getStringList("kit-editor." + configName + ".flags");
+        List<String> flagList = CONFIG.getConfig().getStringList("kit_editor." + configName + ".flags");
         List<ItemFlag> flags = new ArrayList<>();
         for (String flag : flagList) {
             try {
@@ -116,7 +116,7 @@ public class KitEditorMenu extends GuiBuilder {
             }
         }
 
-        List<Map<?, ?>> enchantmentList = CONFIG.getConfig().getMapList("kit-editor." + configName + ".enchantments");
+        List<Map<?, ?>> enchantmentList = CONFIG.getConfig().getMapList("kit_editor." + configName + ".enchantments");
         Map<Enchantment, Integer> enchantments = new HashMap<>();
         for (Map<?, ?> enchantmentMap : enchantmentList) {
             String type = (String) enchantmentMap.get("type");
