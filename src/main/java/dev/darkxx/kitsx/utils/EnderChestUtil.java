@@ -21,6 +21,7 @@
 
 package dev.darkxx.kitsx.utils;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import dev.darkxx.kitsx.KitsX;
 import dev.darkxx.kitsx.api.EnderChestAPI;
 import dev.darkxx.kitsx.utils.config.ConfigManager;
@@ -123,6 +124,7 @@ public class EnderChestUtil implements EnderChestAPI {
     }
 
     @Override
+    @CanIgnoreReturnValue
     public void saveAll() {
         try {
             configManager.saveConfig("data/enderchest.yml");

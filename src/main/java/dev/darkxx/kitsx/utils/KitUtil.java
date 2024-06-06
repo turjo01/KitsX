@@ -21,6 +21,7 @@
 
 package dev.darkxx.kitsx.utils;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import dev.darkxx.kitsx.KitsX;
 import dev.darkxx.kitsx.api.KitsAPI;
 import dev.darkxx.kitsx.api.events.KitLoadEvent;
@@ -189,6 +190,7 @@ public class KitUtil implements KitsAPI {
     }
 
     @Override
+    @CanIgnoreReturnValue
     public void saveAll() {
         try {
             configManager.saveConfig("data/kits.yml");

@@ -21,6 +21,7 @@
 
 package dev.darkxx.kitsx.utils;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import dev.darkxx.kitsx.KitsX;
 import dev.darkxx.kitsx.api.PremadeKitAPI;
 import dev.darkxx.kitsx.utils.config.ConfigManager;
@@ -137,6 +138,7 @@ public class PremadeKitUtil implements PremadeKitAPI {
     }
 
     @Override
+    @CanIgnoreReturnValue
     public void saveAll() {
         try {
             configManager.saveConfig("data/premadekit.yml");

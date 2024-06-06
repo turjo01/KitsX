@@ -5,16 +5,9 @@ plugins {
 }
 
 group = "dev.darkxx"
-version = "1.0.0"
+version = "1.0.2"
 description = "KitsX"
-java.sourceCompatibility = JavaVersion.VERSION_19
-
-/*
-java {
-    withJavadocJar()
-    withSourcesJar()
-}
- */
+java.sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {
     mavenCentral()
@@ -25,9 +18,11 @@ repositories {
 
 dependencies {
     implementation("dev.darkxx:xUtils:2.0.0")
+    implementation("org.projectlombok:lombok:1.18.30")
 
     compileOnly("io.papermc.paper:paper-api:1.20.6-R0.1-SNAPSHOT")
     compileOnly("com.github.SkriptLang:Skript:dev37c")
+    annotationProcessor("org.projectlombok:lombok:1.18.30")
 }
 
 tasks.build {
@@ -36,6 +31,7 @@ tasks.build {
 
 tasks.withType<JavaCompile> {
     options.encoding = "UTF-8"
+    options.compilerArgs.add("-parameters")
 }
 
 tasks.withType<Javadoc> {
@@ -48,7 +44,7 @@ publishing {
             from(components["java"])
             groupId = "dev.darkxx"
             artifactId = "KitsX"
-            version = "1.0.0"
+            version = "1.0.2"
         }
     }
     repositories {

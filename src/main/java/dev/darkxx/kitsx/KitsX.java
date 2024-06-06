@@ -24,6 +24,7 @@ package dev.darkxx.kitsx;
 import dev.darkxx.kitsx.commands.*;
 import dev.darkxx.kitsx.commands.admin.*;
 import dev.darkxx.kitsx.hooks.HooksImpl;
+import dev.darkxx.kitsx.hooks.Metrics;
 import dev.darkxx.kitsx.listeners.*;
 import dev.darkxx.kitsx.utils.config.MenuConfig;
 import dev.darkxx.kitsx.utils.*;
@@ -34,15 +35,22 @@ import dev.darkxx.utils.menu.xmenu.GuiManager;
 import dev.darkxx.utils.misc.Versions;
 import dev.darkxx.utils.server.Servers;
 import dev.darkxx.utils.text.color.ColorizeText;
+import lombok.Getter;
 import org.bukkit.command.ConsoleCommandSender;
 
 public final class KitsX extends PluginWrapper {
 
+    @Getter
     private static KitsX instance;
+    @Getter
     private static KitUtil kitUtil;
+    @Getter
     private static PremadeKitUtil premadeKitUtil;
+    @Getter
     private static EnderChestUtil enderChestUtil;
+    @Getter
     private static KitRoomUtil kitRoomUtil;
+    @Getter
     private static AutoRekitUtil autoRekitUtil;
 
     @Override
@@ -88,6 +96,7 @@ public final class KitsX extends PluginWrapper {
             new KitLoadCommand(this, "kit" + i, i);
         }
 
+        Metrics metrics = new Metrics(this, 22161);
         HooksImpl.of(this);
 
         log.sendMessage(ColorizeText.hex("&c&lKitsX &7› &fThe &#ff2e2eplugin &fhas been successfully enabled, created by &#ff2e2eXyrisPlugins &fwith &#ff2e2e❤"));
@@ -99,29 +108,5 @@ public final class KitsX extends PluginWrapper {
         getKitUtil().saveAll();
         getEnderChestUtil().saveAll();
         getPremadeKitUtil().saveAll();
-    }
-
-    public static KitsX getInstance() {
-        return instance;
-    }
-
-    public static KitUtil getKitUtil() {
-        return kitUtil;
-    }
-
-    public static PremadeKitUtil getPremadeKitUtil() {
-        return premadeKitUtil;
-    }
-
-    public static EnderChestUtil getEnderChestUtil() {
-        return enderChestUtil;
-    }
-
-    public static KitRoomUtil getKitRoomUtil() {
-        return kitRoomUtil;
-    }
-
-    public static AutoRekitUtil getAutoRekitUtil() {
-        return autoRekitUtil;
     }
 }
