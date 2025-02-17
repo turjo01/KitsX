@@ -1,5 +1,6 @@
 package dev.darkxx.kitsx.api.events;
 
+import lombok.Getter;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
@@ -8,7 +9,9 @@ import org.jetbrains.annotations.NotNull;
 
 public class KitLoadEvent extends Event implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
+    @Getter
     private final Player player;
+    @Getter
     private final String kitName;
     private boolean cancelled = false;
 
@@ -21,15 +24,7 @@ public class KitLoadEvent extends Event implements Cancellable {
         return handlers;
     }
 
-    public Player getPlayer() {
-        return player;
-    }
-
-    public String getKitName() {
-        return kitName;
-    }
-
-    @Override
+	@Override
     public boolean isCancelled() {
         return cancelled;
     }

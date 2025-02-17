@@ -3,6 +3,8 @@ package dev.darkxx.kitsx.api;
 import dev.darkxx.kitsx.utils.*;
 import dev.darkxx.kitsx.utils.config.ConfigManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * A provider class for accessing various APIs related to KitsX.
@@ -30,7 +32,8 @@ public class KitsApiProvider {
         autoRekitAPI = new AutoRekitUtil(configManager);
     }
 
-    public static KitsApiProvider get() {
+    @Contract(value = " -> new", pure = true)
+    public static @NotNull KitsApiProvider get() {
         return new KitsApiProvider();
     }
 

@@ -29,6 +29,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class AutoRekitListener implements Listener {
 
@@ -45,7 +46,7 @@ public class AutoRekitListener implements Listener {
     }
 
     @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent e) {
+    public void onPlayerJoin(@NotNull PlayerJoinEvent e) {
         Player player = e.getPlayer();
         if (!KitsX.getAutoRekitUtil().hasAutoRekit(player)) {
             KitsX.getAutoRekitUtil().set(player, false, "Kit 1");
@@ -53,7 +54,7 @@ public class AutoRekitListener implements Listener {
     }
 
     @EventHandler
-    public void onDeath(PlayerDeathEvent e) {
+    public void onDeath(@NotNull PlayerDeathEvent e) {
         Player victim = e.getEntity();
         Player attacker = victim.getKiller();
         if (attacker != null) {
@@ -64,7 +65,7 @@ public class AutoRekitListener implements Listener {
     }
 
     @EventHandler
-    public void onCrystalDeath(PlayerCrystalDeathEvent e) {
+    public void onCrystalDeath(@NotNull PlayerCrystalDeathEvent e) {
         Player victim = e.victim();
         Player attacker = victim.getKiller();
         if (attacker != null) {

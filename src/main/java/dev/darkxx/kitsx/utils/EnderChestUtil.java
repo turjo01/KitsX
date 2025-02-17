@@ -21,7 +21,6 @@
 
 package dev.darkxx.kitsx.utils;
 
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import dev.darkxx.kitsx.KitsX;
 import dev.darkxx.kitsx.api.EnderChestAPI;
 import dev.darkxx.kitsx.utils.config.ConfigManager;
@@ -31,6 +30,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 import java.util.logging.Level;
@@ -51,7 +51,7 @@ public class EnderChestUtil implements EnderChestAPI {
     }
 
     @Override
-    public void save(Player player, String kitName) {
+    public void save(@NotNull Player player, String kitName) {
         String playerName = player.getUniqueId().toString();
         if (exists(player, kitName)) {
             delete(player, kitName);
@@ -74,7 +74,7 @@ public class EnderChestUtil implements EnderChestAPI {
     }
 
     @Override
-    public void load(Player player, String kitName) {
+    public void load(@NotNull Player player, String kitName) {
         String playerName = player.getUniqueId().toString();
         player.getEnderChest().clear();
 
@@ -90,7 +90,7 @@ public class EnderChestUtil implements EnderChestAPI {
     }
 
     @Override
-    public void set(Player player, String kitName, GuiBuilder inventory) {
+    public void set(@NotNull Player player, String kitName, GuiBuilder inventory) {
         String playerName = player.getUniqueId().toString();
 
         ConfigurationSection section = configManager.getConfig("data/enderchest.yml").getConfigurationSection(playerName + "." + kitName + ".enderchest");
@@ -105,7 +105,7 @@ public class EnderChestUtil implements EnderChestAPI {
     }
 
     @Override
-    public void delete(Player player, String kitName) {
+    public void delete(@NotNull Player player, String kitName) {
         String playerName = player.getUniqueId().toString();
 
         configManager.set("data/enderchest.yml", playerName + "." + kitName + ".enderchest", null);
@@ -118,13 +118,12 @@ public class EnderChestUtil implements EnderChestAPI {
     }
 
     @Override
-    public boolean exists(Player player, String kitName) {
+    public boolean exists(@NotNull Player player, String kitName) {
         String playerName = player.getUniqueId().toString();
         return configManager.contains("data/enderchest.yml", playerName + "." + kitName + ".enderchest");
     }
 
     @Override
-    @CanIgnoreReturnValue
     public void saveAll() {
         try {
             configManager.saveConfig("data/enderchest.yml");

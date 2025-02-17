@@ -32,6 +32,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -97,7 +98,7 @@ public class KitEditorMenu extends GuiBuilder {
     }
 
     @SuppressWarnings("deprecation")
-    private static void addItem(GuiBuilder inventory, String configName, Material defaultMaterial, int defaultSlot, Player player, String kitName) {
+    private static void addItem(GuiBuilder inventory, String configName, @NotNull Material defaultMaterial, int defaultSlot, Player player, String kitName) {
         String itemMaterial = CONFIG.getConfig().getString("kit_editor." + configName + ".material", defaultMaterial.name());
         String itemName = CONFIG.getConfig().getString("kit_editor." + configName + ".name", "");
         int itemSlot = CONFIG.getConfig().getInt("kit_editor." + configName + ".slot", defaultSlot);
@@ -154,7 +155,7 @@ public class KitEditorMenu extends GuiBuilder {
                     KitsX.getKitUtil().importInventory(player, inventory);
                     break;
                 case "premadeKit":
-                    KitsX.getPremadeKitUtil().load(player);
+                    PremadeKitSelectorMenu.createGui(player).open(player);
                     break;
                 case "back":
                     KitsMenu.openKitMenu(player).open(player);

@@ -44,6 +44,7 @@ public class KitsAdminCommand extends XyrisCommand<KitsX> {
         addTabbComplete(0, "view");
         addTabbComplete(0, "clear");
         setUsage("");
+        setPermission("kitsx.admin");
         registerCommand();
     }
 
@@ -90,7 +91,7 @@ public class KitsAdminCommand extends XyrisCommand<KitsX> {
     }
 
     @Override
-    public @NotNull List<String> tabComplete(CommandSender sender, String alias, String[] args) {
+    public @NotNull List<String> tabComplete(CommandSender sender, String alias, String @NotNull [] args) {
         if (args.length == 2 && (args[0].equalsIgnoreCase("view") || args[0].equalsIgnoreCase("clear"))) {
             return Bukkit.getOnlinePlayers().stream()
                     .map(Player::getName)

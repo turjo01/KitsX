@@ -13,21 +13,21 @@ public interface PremadeKitAPI {
      *
      * @param player The player whose inventory will be saved as a premade kit.
      */
-    void save(Player player);
+    void save(Player player, String kitName);
 
     /**
      * Sets the premade kit contents in a GuiBuilder inventory.
      *
      * @param inventory The inventory to set the premade kit contents in.
      */
-    void set(GuiBuilder inventory);
+    void set(GuiBuilder inventory, String kitName);
 
     /**
      * Loads a premade kit into a player's inventory.
      *
      * @param player The player who will receive the premade kit.
      */
-    void load(Player player);
+    void load(Player player, String kitName);
 
     /**
      * Saves all premade kits.

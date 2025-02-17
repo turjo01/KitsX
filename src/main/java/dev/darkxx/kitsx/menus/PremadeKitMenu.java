@@ -22,7 +22,6 @@
 package dev.darkxx.kitsx.menus;
 
 import dev.darkxx.kitsx.KitsX;
-import dev.darkxx.kitsx.utils.PremadeKitUtil;
 import dev.darkxx.kitsx.utils.config.MenuConfig;
 import dev.darkxx.utils.menu.xmenu.GuiBuilder;
 import dev.darkxx.utils.menu.xmenu.ItemBuilderGUI;
@@ -32,6 +31,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,10 +46,10 @@ public class PremadeKitMenu extends GuiBuilder {
         super(CONFIG.getConfig().getInt("premade_kit.size"));
     }
 
-    public static GuiBuilder createGui(Player player) {
+    public static @NotNull GuiBuilder createGui(Player player, String kitName) {
         GuiBuilder inventory = new GuiBuilder(CONFIG.getConfig().getInt("premade_kit.size"), ColorizeText.hex(Objects.requireNonNull(CONFIG.getConfig().getString("premade_kit.title"))));
 
-       KitsX.getInstance().getPremadeKitUtil().set(inventory);
+       KitsX.getPremadeKitUtil().set(inventory, kitName);
 
         addItems(inventory);
         addItem(inventory, player);

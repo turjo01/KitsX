@@ -56,18 +56,22 @@ public class PremadeKitCommand extends XyrisCommand<KitsX> {
             }
         }
 
-        if (args.length == 0) {
-            KitsX.getPremadeKitUtil().load(player);
-            return true;
-        }
+        String subCommand = args[0].toLowerCase();
 
-        if (args.length == 1 && args[0].equalsIgnoreCase("save")) {
+        if (subCommand.equals("save") && args.length == 2) {
+            String kitName = args[1];
             if (player.hasPermission("kitsx.admin")) {
-                KitsX.getPremadeKitUtil().save(player);
+                KitsX.getPremadeKitUtil().save(player, kitName);
             } else {
                 String noPerm = Objects.requireNonNull(KitsX.getInstance().getConfig().getString("messages.no_permission"));
                 player.sendMessage(ColorizeText.hex(noPerm));
             }
+            return true;
+        }
+
+        if (subCommand.equals("load") && args.length == 2) {
+            String kitName = args[1];
+            KitsX.getPremadeKitUtil().load(player, kitName);
             return true;
         }
         return true;

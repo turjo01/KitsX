@@ -25,10 +25,13 @@ import dev.darkxx.kitsx.KitsX;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 public class WorldGuardHook {
 
-    public static WorldGuardHook get() {
+    @Contract(value = " -> new", pure = true)
+    public static @NotNull WorldGuardHook get() {
         return new WorldGuardHook();
     }
 

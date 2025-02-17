@@ -1,30 +1,8 @@
-/*
- * This file is part of KitsX
- *
- * KitsX
- * Copyright (c) 2024 XyrisPlugins
- *
- * KitsX is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * KitsX is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
- */
-
-// TODO: make this menu configurable via the config
-
 package dev.darkxx.kitsx.menus;
 
 import dev.darkxx.kitsx.KitsX;
 import dev.darkxx.kitsx.api.events.KitRoomOpenEvent;
+import dev.darkxx.kitsx.utils.config.MenuConfig;
 import dev.darkxx.utils.menu.xmenu.GuiBuilder;
 import dev.darkxx.utils.menu.xmenu.ItemBuilderGUI;
 import dev.darkxx.utils.text.color.ColorizeText;
@@ -34,69 +12,95 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.configuration.ConfigurationSection;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class KitRoomMenu extends GuiBuilder {
+
+    private static final MenuConfig CONFIG = new MenuConfig(KitsX.getInstance(), "menus/kitroom_menu.yml");
+    private static final Map<Player, String> currentCategoryMap = new HashMap<>();
+    public static final Map<String, Long> lastBroadcastTime = new HashMap<>();
 
     public KitRoomMenu() {
         super(54);
     }
 
-    @SuppressWarnings("deprecation")
-    public static GuiBuilder openKitRoom(Player player) {
-        GuiBuilder inventory = new GuiBuilder(54, "Virtual Kit Room");
+    public static @NotNull GuiBuilder openKitRoom(Player player) {
+        GuiBuilder inventory = new GuiBuilder(54, CONFIG.getConfig().getString("kit_room.title", "Virtual Kit Room"));
 
         inventory.addOpenHandler(event -> {
-            if (KitsX.getInstance().getConfig().getBoolean("broadcast.kitroom_open", true)) {
-                String bcastLoaded = KitsX.getInstance().getConfig().getString("broadcast.kitroom_open_message");
-                assert bcastLoaded != null;
-                bcastLoaded = bcastLoaded.replace("%player%", player.getName());
-                Bukkit.broadcastMessage(ColorizeText.hex(bcastLoaded));
+            long currentTime = System.currentTimeMillis();
+            String playerName = player.getUniqueId().toString();
+            long lastTime = lastBroadcastTime.getOrDefault(playerName, 0L);
+            long delayMillis = KitsX.getInstance().getConfig().getInt("broadcast.kitroom_open_message_delay", 10) * 50L;
 
-                Bukkit.getServer().getPluginManager().callEvent(new KitRoomOpenEvent(player));
+            if (KitsX.getInstance().getConfig().getBoolean("broadcast.kitroom_open", true) && (currentTime - lastTime > delayMillis)) {
+                String bcastLoaded = KitsX.getInstance().getConfig().getString("broadcast.kitroom_open_message");
+                if (bcastLoaded != null) {
+                    bcastLoaded = bcastLoaded.replace("%player%", player.getName());
+                    Bukkit.broadcastMessage(ColorizeText.hex(bcastLoaded));
+                    lastBroadcastTime.put(playerName, currentTime);
+
+                    KitsX.getKitRoomUtil().load(inventory, "CRYSTAL_PVP");
+
+                    Bukkit.getServer().getPluginManager().callEvent(new KitRoomOpenEvent(player));
+                }
             }
         });
 
-        for (int i = 1; i <= 9; i++) {
-            int slot = i + 44;
-            ItemStack filter = new ItemBuilderGUI(Material.BLACK_STAINED_GLASS_PANE)
-                    .name(" ")
-                    .flags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS)
-                    .build();
-            inventory.setItem(slot, filter);
+        ConfigurationSection itemsSection = CONFIG.getConfig().getConfigurationSection("kit_room.items");
+        if (itemsSection != null) {
+            for (String key : itemsSection.getKeys(false)) {
+                ConfigurationSection itemSection = itemsSection.getConfigurationSection(key);
+                if (itemSection != null) {
+                    Material material = Material.valueOf(itemSection.getString("material", "STONE"));
+                    String name = itemSection.getString("name", "Item");
+                    List<String> lore = itemSection.getStringList("lore");
+                    List<Integer> slots = itemSection.getIntegerList("slots");
+
+                    ItemBuilderGUI itemBuilder = new ItemBuilderGUI(material)
+                            .name(ColorizeText.hex(name))
+                            .lore(lore.toArray(new String[0]))
+                            .flags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);
+
+                    if (itemSection.getBoolean("enchanted", false)) {
+                        itemBuilder.enchant(Enchantment.MENDING, 1);
+                    }
+
+                    ItemStack item = itemBuilder.build();
+
+                    if (key.equalsIgnoreCase("filter")) {
+                        for (int slot : slots) {
+                            inventory.setItem(slot, item, event -> event.setCancelled(true));
+                        }
+                    } else {
+                        int slot = itemSection.getInt("slot", 0);
+                        inventory.setItem(slot, item, event -> {
+                            if (key.equalsIgnoreCase("back")) {
+                                Player p = (Player) event.getWhoClicked();
+                                p.closeInventory();
+                                KitsMenu.openKitMenu(p).open(p);
+                            } else if (key.equalsIgnoreCase("refill")) {
+                                Player p = (Player) event.getWhoClicked();
+                                String currentCategory = getCurrentCategory(p);
+                                KitsX.getKitRoomUtil().load(inventory, currentCategory);
+                            } else {
+                                Player p = (Player) event.getWhoClicked();
+                                String category = itemSection.getString("category", "");
+                                if (!category.isEmpty()) {
+                                    setCurrentCategory(p, category);
+                                    KitsX.getKitRoomUtil().load(inventory, category);
+                                }
+                            }
+                        });
+                    }
+                }
+            }
         }
-
-        KitsX.getKitRoomUtil().load(inventory, "CRYSTAL_PVP");
-
-        ItemStack crystalpvp = new ItemBuilderGUI(Material.NETHERITE_SWORD)
-                .name(ColorizeText.hex("&#ff2e2eCrystal PvP"))
-                .flags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS)
-                .enchant(Enchantment.MENDING, 1)
-                .build();
-        inventory.setItem(47, crystalpvp, p -> KitsX.getKitRoomUtil().load(inventory, "CRYSTAL_PVP"));
-
-        ItemStack potions = new ItemBuilderGUI(Material.BREWING_STAND)
-                .name(ColorizeText.hex("&#ff2e2ePotions"))
-                .flags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS)
-                .build();
-        inventory.setItem(48, potions, p -> KitsX.getKitRoomUtil().load(inventory, "POTIONS"));
-
-        ItemStack bowsArrows = new ItemBuilderGUI(Material.SPECTRAL_ARROW)
-                .name(ColorizeText.hex("&#ff2e2eBows & Arrows"))
-                .flags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS)
-                .build();
-        inventory.setItem(50, bowsArrows, p -> KitsX.getKitRoomUtil().load(inventory, "BOWS_ARROWS"));
-
-        ItemStack misc = new ItemBuilderGUI(Material.ENDER_PEARL)
-                .name(ColorizeText.hex("&#ff2e2eMisc"))
-                .flags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS)
-                .build();
-        inventory.setItem(51, misc, p -> KitsX.getKitRoomUtil().load(inventory, "MISC"));
-
-        ItemStack back = new ItemBuilderGUI(Material.RED_STAINED_GLASS_PANE)
-                .name(ColorizeText.hex("&#ffa6a6Back"))
-                .flags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS)
-                .build();
-        inventory.setItem(49, back, p -> KitsMenu.openKitMenu(player).open(player));
 
         inventory.addClickHandler(event -> {
             int slot = event.getRawSlot();
@@ -106,5 +110,13 @@ public class KitRoomMenu extends GuiBuilder {
         });
 
         return inventory;
+    }
+
+    public static void setCurrentCategory(Player player, String category) {
+        currentCategoryMap.put(player, category);
+    }
+
+    public static String getCurrentCategory(Player player) {
+        return currentCategoryMap.getOrDefault(player, "null");
     }
 }

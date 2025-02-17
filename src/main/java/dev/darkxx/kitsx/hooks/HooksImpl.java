@@ -26,10 +26,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 public class HooksImpl {
 
-    public static void of(JavaPlugin plugin) {
+    public static void of(@NotNull JavaPlugin plugin) {
         PluginManager pm = plugin.getServer().getPluginManager();
         ConsoleCommandSender log = Bukkit.getServer().getConsoleSender();
 
@@ -42,7 +43,7 @@ public class HooksImpl {
         }
     }
 
-    private static boolean isPluginEnabled(PluginManager pluginManager, SupportedPlugins plugin) {
+    private static boolean isPluginEnabled(@NotNull PluginManager pluginManager, @NotNull SupportedPlugins plugin) {
         return pluginManager.isPluginEnabled(plugin.getName());
     }
 }

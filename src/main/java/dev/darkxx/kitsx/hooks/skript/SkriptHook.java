@@ -30,10 +30,13 @@ import dev.darkxx.kitsx.api.events.KitRoomOpenEvent;
 import dev.darkxx.kitsx.api.events.KitSaveEvent;
 import dev.darkxx.kitsx.hooks.skript.conditions.CondEqualsKit;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 public class SkriptHook {
 
-    public static SkriptHook get() {
+    @Contract(value = " -> new", pure = true)
+    public static @NotNull SkriptHook get() {
         return new SkriptHook();
     }
 

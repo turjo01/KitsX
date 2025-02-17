@@ -83,5 +83,3 @@ Here are some usage examples:
         }
     }
 ```
-
-Just to let you know, there's more API. these are just examples.

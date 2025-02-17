@@ -21,17 +21,20 @@
 
 package dev.darkxx.kitsx.utils.config;
 
+import lombok.Getter;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 
+@Getter
 public class MenuConfig {
 
     private final FileConfiguration config;
 
-    public MenuConfig(Plugin plugin, String fileName) {
+    public MenuConfig(@NotNull Plugin plugin, String fileName) {
         File file = new File(plugin.getDataFolder(), fileName);
         if (!file.exists()) {
             plugin.saveResource(fileName, false);
@@ -45,9 +48,7 @@ public class MenuConfig {
         new MenuConfig(plugin, "menus/enderchest_editor_menu.yml");
         new MenuConfig(plugin, "menus/autorekit_menu.yml");
         new MenuConfig(plugin, "menus/premadekit_menu.yml");
-    }
-
-    public FileConfiguration getConfig() {
-        return config;
+        new MenuConfig(plugin, "menus/premadekit_selector_menu.yml");
+        new MenuConfig(plugin, "menus/kitroom_menu.yml");
     }
 }

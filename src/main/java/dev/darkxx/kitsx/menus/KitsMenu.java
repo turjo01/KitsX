@@ -32,6 +32,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,7 +50,7 @@ public class KitsMenu extends GuiBuilder {
         super(size);
     }
 
-    public static GuiBuilder openKitMenu(Player player) {
+    public static @NotNull GuiBuilder openKitMenu(Player player) {
         int inventorySize = CONFIG.getConfig().getInt("kits_menu.size", 54);
         String kitsTitle = CONFIG.getConfig().getString("kits_menu.title", "Kits");
         String inventoryTitle = ColorizeText.hex(kitsTitle);
@@ -75,7 +76,11 @@ public class KitsMenu extends GuiBuilder {
         List<String> filterFlagsList = CONFIG.getConfig().getStringList("kits_menu.filter.flags");
         List<ItemFlag> filterFlags = new ArrayList<>();
         for (String flag : filterFlagsList) {
-            filterFlags.add(ItemFlag.valueOf(flag));
+            try {
+                filterFlags.add(ItemFlag.valueOf(flag));
+            } catch (IllegalArgumentException e) {
+                LOGGER.warning("Invalid item flag " + flag);
+            }
         }
         List<Integer> filterSlots = CONFIG.getConfig().getIntegerList("kits_menu.filter.slots");
 
@@ -114,7 +119,11 @@ public class KitsMenu extends GuiBuilder {
             List<String> flagList = CONFIG.getConfig().getStringList(configPath + ".flags");
             List<ItemFlag> flags = new ArrayList<>();
             for (String flag : flagList) {
-                flags.add(ItemFlag.valueOf(flag));
+                try {
+                    flags.add(ItemFlag.valueOf(flag));
+                } catch (IllegalArgumentException e) {
+                    LOGGER.warning("Invalid item flag " + flag);
+                }
             }
 
             ItemStack item = new ItemBuilderGUI(Material.valueOf(itemMaterial))
@@ -150,7 +159,7 @@ public class KitsMenu extends GuiBuilder {
     }
 
     @SuppressWarnings("deprecation")
-    private static void addItem(GuiBuilder inventory, String configName, Material defaultMaterial, Player player) {
+    private static void addItem(GuiBuilder inventory, String configName, @NotNull Material defaultMaterial, Player player) {
         String itemMaterial = CONFIG.getConfig().getString(configName + ".material", defaultMaterial.name());
         String itemName = CONFIG.getConfig().getString(configName + ".name", "");
         int itemSlot = CONFIG.getConfig().getInt(configName + ".slot");
@@ -171,21 +180,24 @@ public class KitsMenu extends GuiBuilder {
         List<Map<?, ?>> enchantmentList = CONFIG.getConfig().getMapList(configName + ".enchantments");
         Map<Enchantment, Integer> enchantments = new HashMap<>();
         for (Map<?, ?> enchantmentMap : enchantmentList) {
-            String type = (String) enchantmentMap.get("type");
-            int level = (Integer) enchantmentMap.get("level");
-            Enchantment enchantment = Enchantment.getByKey(NamespacedKey.minecraft(type.toLowerCase()));
-            if (enchantment != null) {
-                enchantments.put(enchantment, level);
-            } else {
-                LOGGER.warning("Invalid enchantment type " + type);
+            try {
+                String type = (String) enchantmentMap.get("type");
+                int level = (Integer) enchantmentMap.get("level");
+                Enchantment enchantment = Enchantment.getByKey(NamespacedKey.minecraft(type.toLowerCase()));
+                if (enchantment != null) {
+                    enchantments.put(enchantment, level);
+                } else {
+                    LOGGER.warning("Invalid enchantment type " + type);
+                }
+            } catch (ClassCastException e) {
+                LOGGER.warning("Invalid enchantment data format for " + configName);
             }
         }
 
-        @SuppressWarnings("deprecation")
         ItemStack item = new ItemBuilderGUI(Material.valueOf(itemMaterial))
                 .name(ColorizeText.hex(itemName))
                 .flags(flags.toArray(new ItemFlag[0]))
-                .flags(ItemFlag.HIDE_ITEM_SPECIFICS, ItemFlag.HIDE_ATTRIBUTES)
+                .flags(ItemFlag.HIDE_ATTRIBUTES)
                 .lore(finalLore.toArray(new String[0]))
                 .build();
 
@@ -202,11 +214,7 @@ public class KitsMenu extends GuiBuilder {
                     player.getInventory().clear();
                     break;
                 case "kits_menu.premadekit":
-                    if (p.isRightClick()) {
-                        PremadeKitMenu.createGui(player).open(player);
-                    } else if (p.isLeftClick()) {
-                        KitsX.getPremadeKitUtil().load(player);
-                    }
+                    PremadeKitSelectorMenu.createGui(player).open(player);
                     break;
             }
         });

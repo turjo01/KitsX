@@ -3,14 +3,18 @@
 # and, They won't be able to load/use the Kit 7
 
 kits: 7
+auto_rekit: false
 
 broadcast:
   kit_load: true
   kit_load_message: "&#7cff6e%player% loaded %kit%."
+  kit_load_message_delay: 20 # In ticks (20 ticks = 1 second)
   kitroom_open: true
   kitroom_open_message: "&#7cff6e%player% opened the Virtual Kit Room."
+  kitroom_open_message_delay: 20 # In ticks (20 ticks = 1 second)
   premadekit_load: true
   premadekit_load_message: "&#7cff6e%player% loaded the premade kit."
+  premadekit_load_message_delay: 20 # In ticks (20 ticks = 1 second)
 
 messages:
   no_permission: "&#ffa6a6You do not have permission to use this command."

@@ -56,7 +56,7 @@ public final class KitsX extends PluginWrapper {
     @Override
     protected void start() {
         instance = this;
-        Utils.init(this);
+        Utils.init(this, false, "KitsX");
         GuiManager.register(this);
         saveDefaultConfig();
 
@@ -77,24 +77,27 @@ public final class KitsX extends PluginWrapper {
         KitRoomUtil.of(this);
         kitRoomUtil = new KitRoomUtil(configManager);
 
-        AutoRekitUtil.of(this);
-        autoRekitUtil = new AutoRekitUtil(configManager);
+        if (rekit()) {
+            AutoRekitUtil.of(this);
+            autoRekitUtil = new AutoRekitUtil(configManager);
 
-        Servers.server().getPluginManager().registerEvents(new AutoRekitListener(), this);
-        if (Versions.isHigherThanOrEqualTo("1.20.1")) {
-            AutoRekitAnchorListener autoRekitAnchorListener = new AutoRekitAnchorListener();
-            autoRekitAnchorListener.register(this);
+            Servers.server().getPluginManager().registerEvents(new AutoRekitListener(), this);
+            if (Versions.isHigherThanOrEqualTo("1.20.1")) {
+                AutoRekitAnchorListener autoRekitAnchorListener = new AutoRekitAnchorListener();
+                autoRekitAnchorListener.register(this);
+            }
         }
 
         new KitCommand(this);
         new KitRoomAdminCommand(this);
-        new PremadeKitCommand(this);
-        new AutoRekitCommand(this);
+        if (rekit())
+            new AutoRekitCommand(this);
         new KitsAdminCommand(this);
         int kits = getConfig().getInt("kits");
         for (int i = 1; i <= kits; i++) {
             new KitLoadCommand(this, "kit" + i, i);
         }
+        new PremadeKitCommand(this);
 
         Metrics metrics = new Metrics(this, 22161);
         HooksImpl.of(this);
@@ -108,5 +111,9 @@ public final class KitsX extends PluginWrapper {
         getKitUtil().saveAll();
         getEnderChestUtil().saveAll();
         getPremadeKitUtil().saveAll();
+    }
+
+    private boolean rekit() {
+        return getConfig().getBoolean("auto_rekit");
     }
 }

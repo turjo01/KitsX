@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "dev.darkxx"
-version = "1.0.2"
+version = "1.0.3"
 description = "KitsX"
 java.sourceCompatibility = JavaVersion.VERSION_17
 

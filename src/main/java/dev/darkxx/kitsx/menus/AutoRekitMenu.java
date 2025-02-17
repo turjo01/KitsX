@@ -23,9 +23,11 @@ package dev.darkxx.kitsx.menus;
 
 import dev.darkxx.kitsx.KitsX;
 import dev.darkxx.kitsx.utils.config.MenuConfig;
+import dev.darkxx.utils.folia.FoliaUtils;
 import dev.darkxx.utils.menu.xmenu.GuiBuilder;
 import dev.darkxx.utils.menu.xmenu.ItemBuilderGUI;
 import dev.darkxx.utils.text.color.ColorizeText;
+import io.papermc.paper.threadedregions.scheduler.AsyncScheduler;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -35,6 +37,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +56,7 @@ public class AutoRekitMenu extends GuiBuilder {
         super(CONFIG.getConfig().getInt("auto_rekit.size"));
     }
 
-    public static GuiBuilder openAutoRekitMenu(Player player) {
+    public static @NotNull GuiBuilder openAutoRekitMenu(Player player) {
         GuiBuilder inventory = new GuiBuilder(CONFIG.getConfig().getInt("auto_rekit.size", 27), CONFIG.getConfig().getString("auto_rekit.title", "Auto Rekit"));
 
         addFilterItems(inventory);
@@ -81,12 +84,22 @@ public class AutoRekitMenu extends GuiBuilder {
 
         setToggleAutoRekitLore(toggleAutoRekit, player);
 
-        inventory.setItem(slot, toggleAutoRekit, p -> Bukkit.getScheduler().runTaskAsynchronously(KitsX.getInstance(), () -> {
-            KitsX.getAutoRekitUtil().toggle(player);
-            setToggleAutoRekitLore(toggleAutoRekit, player);
-            player.getOpenInventory().setItem(slot, toggleAutoRekit);
-            player.playSound(player.getLocation(), Sound.UI_LOOM_TAKE_RESULT, 1.0f, 1.0f);
-        }));
+        if (FoliaUtils.isFolia()) {
+            AsyncScheduler asyncScheduler = Bukkit.getAsyncScheduler();
+            inventory.setItem(slot, toggleAutoRekit, p -> asyncScheduler.runNow(KitsX.getInstance(), (ignored) -> {
+                KitsX.getAutoRekitUtil().toggle(player);
+                setToggleAutoRekitLore(toggleAutoRekit, player);
+                player.getOpenInventory().setItem(slot, toggleAutoRekit);
+                player.playSound(player.getLocation(), Sound.UI_LOOM_TAKE_RESULT, 1.0f, 1.0f);
+            }));
+        } else {
+            Bukkit.getScheduler().runTaskAsynchronously(KitsX.getInstance(), () -> {
+                KitsX.getAutoRekitUtil().toggle(player);
+                setToggleAutoRekitLore(toggleAutoRekit, player);
+                player.getOpenInventory().setItem(slot, toggleAutoRekit);
+                player.playSound(player.getLocation(), Sound.UI_LOOM_TAKE_RESULT, 1.0f, 1.0f);
+            });
+        }
     }
 
     @SuppressWarnings("deprecation")
@@ -129,7 +142,7 @@ public class AutoRekitMenu extends GuiBuilder {
     }
 
     @SuppressWarnings("deprecation")
-    private static ItemStack createItem(String configPath, Material defaultMaterial, int kitNumber) {
+    private static ItemStack createItem(String configPath, @NotNull Material defaultMaterial, int kitNumber) {
         String itemMaterial = CONFIG.getConfig().getString(configPath + ".material", defaultMaterial.name());
         String itemName = CONFIG.getConfig().getString(configPath + ".name", "").replace("%kit%", String.valueOf(kitNumber));
         List<String> loreList = CONFIG.getConfig().getStringList(configPath + ".lore");
