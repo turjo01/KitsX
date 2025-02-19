@@ -56,7 +56,7 @@ public final class KitsX extends PluginWrapper {
     @Override
     protected void start() {
         instance = this;
-        Utils.init(this, false, "KitsX");
+        Utils.init(this, false);
         GuiManager.register(this);
         saveDefaultConfig();
 

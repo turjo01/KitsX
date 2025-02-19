@@ -44,15 +44,14 @@ public class KitRoomMenu extends GuiBuilder {
                     bcastLoaded = bcastLoaded.replace("%player%", player.getName());
                     Bukkit.broadcastMessage(ColorizeText.hex(bcastLoaded));
                     lastBroadcastTime.put(playerName, currentTime);
-
-                    KitsX.getKitRoomUtil().load(inventory, "CRYSTAL_PVP");
-
                     Bukkit.getServer().getPluginManager().callEvent(new KitRoomOpenEvent(player));
+                   // KitsX.getKitRoomUtil().load(inventory, "CRYSTAL_PVP");
                 }
             }
         });
 
         ConfigurationSection itemsSection = CONFIG.getConfig().getConfigurationSection("kit_room.items");
+        KitsX.getKitRoomUtil().load(inventory, "CRYSTAL_PVP");
         if (itemsSection != null) {
             for (String key : itemsSection.getKeys(false)) {
                 ConfigurationSection itemSection = itemsSection.getConfigurationSection(key);
