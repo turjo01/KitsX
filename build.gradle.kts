@@ -14,10 +14,12 @@ repositories {
     mavenLocal()
     maven("https://repo.papermc.io/repository/maven-public/")
     maven("https://repo.skriptlang.org/releases")
+    maven("https://xyris.fun/repo/")
 }
 
 dependencies {
-    implementation("dev.darkxx:xUtils:2.0.0")
+    // Comment out xUtils dependency until it's available
+    // implementation("dev.darkxx:xUtils:2.0.0")
     implementation("org.projectlombok:lombok:1.18.30")
 
     compileOnly("io.papermc.paper:paper-api:1.20.6-R0.1-SNAPSHOT")
